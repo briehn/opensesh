@@ -11,10 +11,7 @@ const { mongoURI: db } = require('../config/keys.js');
  */
 
 const app = require('../app');
-const debug = require('debug');
-
-const serverLogger = debug('backend:server');
-const dbLogger = debug('backend:mongodb');
+const debug = require('debug')('backend:server');
 const http = require('http');
 
 
@@ -37,14 +34,10 @@ var server = http.createServer(app);
 mongoose
   .connect(db, { useNewUrlParser: true })
   .then(() => {
-    // Use `debug` instead of `dbLogger` if you did not split the debug 
-    // console into `dbLogger` and `serverLogger` above. 
-    dbLogger("Connected to MongoDB successfully");
+    debug("Connected to MongoDB successfully");
     server.listen(port);
   })
-  // Use `debug` instead of `serverLogger` if you did not split the debug 
-  // console into `dbLogger` and `serverLogger` above.
-  .catch(err => serverLogger(err));
+  .catch(err => debug(err));
 server.on('error', onError);
 server.on('listening', onListening);
 
