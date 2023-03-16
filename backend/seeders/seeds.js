@@ -53,7 +53,7 @@ mongoose
   });
 
 const insertSeeds = () => {
-  console.log("Resetting db and seeding users and tweets...");
+  console.log("Resetting db and seeding users and posts...");
 
   User.collection
     .drop()
