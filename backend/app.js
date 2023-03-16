@@ -5,6 +5,7 @@ const debug = require("debug");
 
 //MODELS
 require("./models/User");
+require("./models/Post");
 require("./config/passport");
 
 const passport = require("passport");
@@ -18,6 +19,7 @@ const csurf = require("csurf");
 
 //ROUTERS
 const usersRouter = require("./routes/api/users");
+const postsRouter = require("./routes/api/posts");
 const csrfRouter = require("./routes/api/csrf");
 
 const app = express();
@@ -44,6 +46,7 @@ app.use(
 );
 
 app.use("/api/users", usersRouter);
+app.use("/api/posts", postsRouter);
 app.use("/api/csrf", csrfRouter);
 
 // Express Error Logger
