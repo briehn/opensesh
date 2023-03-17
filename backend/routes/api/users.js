@@ -3,6 +3,7 @@ const router = express.Router();
 const bcrypt = require("bcryptjs");
 const mongoose = require("mongoose");
 const User = mongoose.model("User");
+const Like = mongoose.model("Like");
 const passport = require("passport");
 const { loginUser, restoreUser } = require("../../config/passport");
 const { isProduction } = require("../../config/keys");
@@ -54,6 +55,25 @@ router.post("/register", validateRegisterInput, async (req, res, next) => {
       }
     });
   });
+});
+
+// returns likes of singular user
+router.get("/:id/likes", async (req, res, next) => {
+  try {
+    const likes = await Like.find({
+      user: req.params.id,
+    });
+    return res.json(likes);
+  } catch (err) {
+    const error = new Error(
+      "Error has occurred when retrieving likes of a user"
+    );
+    error.statusCode = 404;
+    error.errors = {
+      message: "Serverside error when retrieving likes of a user",
+    };
+    return next(error);
+  }
 });
 
 // POST /api/users/login

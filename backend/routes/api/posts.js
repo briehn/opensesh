@@ -3,6 +3,7 @@ const router = express.Router();
 const mongoose = require("mongoose");
 const User = mongoose.model("User");
 const Post = mongoose.model("Post");
+const Like = mongoose.model("Like");
 const { requireUser } = require("../../config/passport");
 const validatePostInput = require("../../validations/posts");
 
@@ -48,6 +49,25 @@ router.get("/:id", async (req, res, next) => {
     const error = new Error("Post not found");
     error.statusCode = 404;
     error.errors = { message: "No post found with that id" };
+    return next(error);
+  }
+});
+
+// returns likes of singular post
+router.get("/:id/likes", async (req, res, next) => {
+  try {
+    const likes = await Like.find({
+      post: req.params.id,
+    });
+    return res.json(likes);
+  } catch (err) {
+    const error = new Error(
+      "Error has occurred when retrieving likes of a post"
+    );
+    error.statusCode = 404;
+    error.errors = {
+      message: "Serverside error when retrieving likes of a post",
+    };
     return next(error);
   }
 });
