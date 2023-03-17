@@ -7,6 +7,7 @@ const debug = require("debug");
 require("./models/User");
 require("./models/Post");
 require("./models/Like");
+require("./models/Friend");
 require("./config/passport");
 
 const passport = require("passport");
@@ -22,6 +23,7 @@ const csurf = require("csurf");
 const usersRouter = require("./routes/api/users");
 const postsRouter = require("./routes/api/posts");
 const likesRouter = require("./routes/api/likes");
+const friendsRouter = require("./routes/api/friends");
 const csrfRouter = require("./routes/api/csrf");
 
 const app = express();
@@ -49,8 +51,9 @@ app.use(
 
 app.use("/api/users", usersRouter);
 app.use("/api/posts", postsRouter);
-app.use("/api/csrf", csrfRouter);
 app.use("/api/likes", likesRouter);
+app.use("/api/friends", friendsRouter);
+app.use("/api/csrf", csrfRouter);
 
 // Express Error Logger
 const serverErrorLogger = debug("backend:error");

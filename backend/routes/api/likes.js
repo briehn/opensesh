@@ -1,8 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
-const User = mongoose.model("User");
-const Post = mongoose.model("Post");
 const { requireUser } = require("../../config/passport");
 const Like = require("../../models/Like");
 
@@ -25,7 +23,7 @@ router.post("/user/:userId", requireUser, async (req, res, next) => {
     let like = await newLike.save();
     return res.json(like);
   } catch (err) {
-    next(err);
+    return next(err);
   }
 });
 

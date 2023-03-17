@@ -4,6 +4,7 @@ const bcrypt = require("bcryptjs");
 const mongoose = require("mongoose");
 const User = mongoose.model("User");
 const Like = mongoose.model("Like");
+const Friend = mongoose.model("Friend");
 const passport = require("passport");
 const { loginUser, restoreUser } = require("../../config/passport");
 const { isProduction } = require("../../config/keys");
@@ -11,10 +12,14 @@ const validateRegisterInput = require("../../validations/register");
 const validateLoginInput = require("../../validations/login");
 
 /* GET users listing. */
-router.get("/", function (req, res, next) {
-  res.json({
-    message: "GET /users",
-  });
+router.get("/", async (req, res) => {
+  try {
+    const users = await User.find();
+
+    return res.json(users);
+  } catch (err) {
+    return res.json([]);
+  }
 });
 
 // POST /api/users/register
@@ -71,6 +76,26 @@ router.get("/:id/likes", async (req, res, next) => {
     error.statusCode = 404;
     error.errors = {
       message: "Serverside error when retrieving likes of a user",
+    };
+    return next(error);
+  }
+});
+
+// returns friends of a singular user
+// requireUser: must be logged in to see others friendslist
+router.get("/:id", requireUser, async (req, res, next) => {
+  try {
+    const friends = await Friend.find({
+      user: req.params.id,
+    });
+    return res.json(friends);
+  } catch (err) {
+    const error = new Error(
+      "Error has occurred when retrieving friends of a user"
+    );
+    error.statusCode = 404;
+    error.errors = {
+      message: "Serverside errror when retrieving user friends",
     };
     return next(error);
   }
