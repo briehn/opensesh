@@ -8,6 +8,7 @@ const Friend = mongoose.model("Friend");
 const passport = require("passport");
 const { loginUser, restoreUser } = require("../../config/passport");
 const { isProduction } = require("../../config/keys");
+const { requireUser } = require("../../config/passport");
 const validateRegisterInput = require("../../validations/register");
 const validateLoginInput = require("../../validations/login");
 
