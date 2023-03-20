@@ -1,1 +1,7 @@
-/* TODO Add site wide styles */
+@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300&display=swap");
+
+* {
+  background-color: #312e30;
+  color: #dfe0e5;
+  font-family: "Quicksand", sans-serif;
+}

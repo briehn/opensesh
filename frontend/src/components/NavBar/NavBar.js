@@ -15,7 +15,7 @@ function NavBar() {
   const getLinks = () => {
     if (loggedIn) {
       return (
-        <div className="links-nav">
+        <div className="navbar-links">
           <Link to={"/posts"}>All Posts</Link>
           <Link to={"/profile"}>Profile</Link>
           <Link to={"/posts/new"}>Write a Post</Link>
@@ -24,7 +24,7 @@ function NavBar() {
       );
     } else {
       return (
-        <div className="links-auth">
+        <div className="navbar-links">
           <Link to={"/signup"}>Signup</Link>
           <Link to={"/login"}>Login</Link>
         </div>
@@ -33,10 +33,10 @@ function NavBar() {
   };
 
   return (
-    <>
+    <nav className="navbar">
       <h1>OpenSesh</h1>
       {getLinks()}
-    </>
+    </nav>
   );
 }
 

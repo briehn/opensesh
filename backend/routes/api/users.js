@@ -84,7 +84,7 @@ router.get("/:id/likes", async (req, res, next) => {
 
 // returns friends of a singular user
 // requireUser: must be logged in to see others friendslist
-router.get("/:id", requireUser, async (req, res, next) => {
+router.get("/:id/friends/", async (req, res, next) => {
   try {
     const friends = await Friend.find({
       user: req.params.id,
