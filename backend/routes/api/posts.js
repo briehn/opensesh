@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const User = mongoose.model("User");
 const Post = mongoose.model("Post");
 const Like = mongoose.model("Like");
+const Friend = mongoose.model("Friend");
 const { requireUser } = require("../../config/passport");
 const validatePostInput = require("../../validations/posts");
 
@@ -15,6 +16,29 @@ router.get("/", async (req, res) => {
     return res.json(posts);
   } catch (err) {
     return res.json([]);
+  }
+});
+
+router.get("/user/:userId/friends", async (req, res, next) => {
+  try {
+    const friends = await Friend.find({
+      user: req.params.userId,
+    });
+
+    // Retrieve the ids of the friends
+    const friendIds = friends.map((friend) => friend.friend);
+
+    // Find all the posts made by the friends
+    const posts = await Post.find({
+      author: { $in: friendIds },
+    }).populate("author", "_id, username");
+
+    return res.json(posts);
+  } catch (err) {
+    const error = new Error("Friends post not found");
+    error.statusCode = 404;
+    error.errors = { message: "No friends post were found with that id" };
+    return next(error);
   }
 });
 

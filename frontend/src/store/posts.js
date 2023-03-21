@@ -4,6 +4,7 @@ import { RECEIVE_USER_LOGOUT } from "./session";
 const RECEIVE_POSTS = "posts/RECEIVE_POSTS";
 const RECEIVE_USER_POSTS = "posts/RECEIVE_USER_POSTS";
 const RECEIVE_NEW_POST = "posts/RECEIVE_NEW_POST";
+const RECEIVE_FRIENDS_POSTS = "posts/RECEIVE_FRIENDS_POSTS";
 const RECEIVE_POST_ERRORS = "posts/RECEIVE_POST_ERRORS";
 const CLEAR_POST_ERRORS = "posts/CLEAR_POST_ERRORS";
 
@@ -22,6 +23,11 @@ const receiveNewPost = (post) => ({
   post,
 });
 
+const receiveFriendPost = (posts) => ({
+  type: RECEIVE_FRIENDS_POSTS,
+  posts,
+});
+
 const receiveErrors = (errors) => ({
   type: RECEIVE_POST_ERRORS,
   errors,
@@ -37,6 +43,19 @@ export const fetchPosts = () => async (dispatch) => {
     const res = await jwtFetch("/api/posts");
     const posts = await res.json();
     dispatch(receivePosts(posts));
+  } catch (err) {
+    const resBody = await err.json();
+    if (resBody.statusCode === 400) {
+      dispatch(receiveErrors(resBody.errors));
+    }
+  }
+};
+
+export const fetchFriendPosts = (id) => async (dispatch) => {
+  try {
+    const res = await jwtFetch(`/api/posts/user/${id}/friends`);
+    const posts = await res.json();
+    dispatch(receiveFriendPost(posts));
   } catch (err) {
     const resBody = await err.json();
     if (resBody.statusCode === 400) {
@@ -89,12 +108,14 @@ export const postErrorsReducer = (state = nullErrors, action) => {
 };
 
 const postsReducer = (
-  state = { all: {}, user: {}, new: undefined },
+  state = { all: {}, friends: {}, user: {}, new: undefined },
   action
 ) => {
   switch (action.type) {
     case RECEIVE_POSTS:
       return { ...state, all: action.posts, new: undefined };
+    case RECEIVE_FRIENDS_POSTS:
+      return { ...state, friends: action.posts, new: undefined };
     case RECEIVE_USER_POSTS:
       return { ...state, user: action.posts, new: undefined };
     case RECEIVE_NEW_POST:

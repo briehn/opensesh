@@ -16,6 +16,7 @@ function NavBar() {
     if (loggedIn) {
       return (
         <div className="navbar-links">
+          <Link to={"/"}>Home</Link>
           <Link to={"/posts"}>All Posts</Link>
           <Link to={"/profile"}>Profile</Link>
           <Link to={"/posts/new"}>Write a Post</Link>

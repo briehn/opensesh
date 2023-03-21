@@ -4,13 +4,14 @@
   justify-content: space-between;
   align-items: center;
   padding: 1rem;
-  background-color: transparent;
+  background-color: #272426;
   box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
 }
 
 /* Logo */
 .navbar h1 {
   margin: 0;
+  background-color: transparent;
 }
 
 /* Navigation links */
@@ -19,12 +20,14 @@
   flex-direction: row;
   justify-content: flex-end;
   align-items: center;
+  background-color: transparent;
 }
 
 .navbar-links a {
   margin: 0 0.5rem;
   text-decoration: none;
   font-weight: bold;
+  background-color: transparent;
 }
 
 /* Button */
