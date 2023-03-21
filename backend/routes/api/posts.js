@@ -42,6 +42,20 @@ router.get("/user/:userId/friends", async (req, res, next) => {
   }
 });
 
+router.get("/:postId/likes", async (req, res) => {
+  const postId = req.params.postId;
+  try {
+    const likesCount = await Like.aggregate([
+      { $match: { post: mongoose.Types.ObjectId(postId) } },
+      { $group: { _id: "$post", count: { $sum: 1 } } },
+    ]);
+    res.json({ likes: likesCount[0]?.count ?? 0 });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
 router.get("/user/:userId", async (req, res, next) => {
   let user;
   try {
