@@ -89,7 +89,11 @@ router.get("/:id/friends/", async (req, res, next) => {
     const friends = await Friend.find({
       user: req.params.id,
     });
-    return res.json(friends);
+    const friendIds = friends.map((friend) => friend.friend);
+    const names = await User.find({
+      _id: { $in: friendIds },
+    }).populate("username");
+    return res.json(names);
   } catch (err) {
     const error = new Error(
       "Error has occurred when retrieving friends of a user"
