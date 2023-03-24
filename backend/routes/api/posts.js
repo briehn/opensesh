@@ -92,6 +92,7 @@ router.get("/:id", async (req, res, next) => {
 });
 
 router.post("/", requireUser, validatePostInput, async (req, res, next) => {
+  console.log(req.user);
   try {
     const newPost = new Post({
       text: req.body.text,
@@ -115,7 +116,7 @@ router.post("/:postId/likes", requireUser, async (req, res, next) => {
 
     // Check if the user has already liked the post
     const like = await Like.findOne({
-      user: req.body.userId, // Assuming you have implemented authentication
+      user: req.user._id, // Assuming you have implemented authentication
       post: post._id,
     });
     if (like) {
@@ -126,7 +127,7 @@ router.post("/:postId/likes", requireUser, async (req, res, next) => {
 
     // Create a new like
     const newLike = new Like({
-      user: req.body.userId, // Assuming you have implemented authentication
+      user: req.user._id, // Assuming you have implemented authentication
       post: post._id,
     });
     await newLike.save();
@@ -154,7 +155,7 @@ router.delete("/:postId/likes", requireUser, async (req, res) => {
 
     const like = await Like.findOneAndDelete({
       post: req.params.postId,
-      user: req.body.userId,
+      user: req.user._id,
     });
 
     if (!like) {
