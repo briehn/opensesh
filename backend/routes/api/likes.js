@@ -14,10 +14,10 @@ router.delete("/:id", requireUser, async (req, res, next) => {
   });
 });
 
-router.post("/user/:userId", requireUser, async (req, res, next) => {
+router.post("/:userId/post/:postId", requireUser, async (req, res, next) => {
   try {
     const newLike = new Like({
-      post: req.body.postId,
+      post: req.params.postId,
       user: req.params.userId,
     });
     let like = await newLike.save();
