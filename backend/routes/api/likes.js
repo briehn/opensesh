@@ -14,17 +14,4 @@ router.delete("/:id", requireUser, async (req, res, next) => {
   });
 });
 
-router.post("/:userId/post/:postId", requireUser, async (req, res, next) => {
-  try {
-    const newLike = new Like({
-      post: req.params.postId,
-      user: req.params.userId,
-    });
-    let like = await newLike.save();
-    return res.json(like);
-  } catch (err) {
-    return next(err);
-  }
-});
-
 module.exports = router;

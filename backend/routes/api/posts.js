@@ -91,25 +91,6 @@ router.get("/:id", async (req, res, next) => {
   }
 });
 
-// returns likes of singular post
-router.get("/:id/likes", async (req, res, next) => {
-  try {
-    const likes = await Like.find({
-      post: req.params.id,
-    });
-    return res.json(likes);
-  } catch (err) {
-    const error = new Error(
-      "Error has occurred when retrieving likes of a post"
-    );
-    error.statusCode = 404;
-    error.errors = {
-      message: "Serverside error when retrieving likes of a post",
-    };
-    return next(error);
-  }
-});
-
 router.post("/", requireUser, validatePostInput, async (req, res, next) => {
   try {
     const newPost = new Post({
@@ -122,6 +103,68 @@ router.post("/", requireUser, validatePostInput, async (req, res, next) => {
     return res.json(post);
   } catch (err) {
     next(err);
+  }
+});
+
+router.post("/:postId/likes", requireUser, async (req, res, next) => {
+  try {
+    const post = await Post.findById(req.params.postId);
+    if (!post) {
+      return res.status(404).json({ message: "Post not found" });
+    }
+
+    // Check if the user has already liked the post
+    const like = await Like.findOne({
+      user: req.body.userId, // Assuming you have implemented authentication
+      post: post._id,
+    });
+    if (like) {
+      return res
+        .status(400)
+        .json({ message: "You have already liked this post" });
+    }
+
+    // Create a new like
+    const newLike = new Like({
+      user: req.body.userId, // Assuming you have implemented authentication
+      post: post._id,
+    });
+    await newLike.save();
+
+    // Add the new like to the post
+    post.likes.push(newLike._id);
+    await post.save();
+
+    return res.status(200).json({ message: "Like added successfully" });
+  } catch (err) {
+    const error = new Error("Post not found");
+    error.statusCode = 404;
+    error.errors = { message: "No post found with that id" };
+    return next(error);
+  }
+});
+
+router.delete("/:postId/likes", requireUser, async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.postId);
+
+    if (!post) {
+      return res.status(404).json({ message: "Post not found" });
+    }
+
+    const like = await Like.findOneAndDelete({
+      post: req.params.postId,
+      user: req.body.userId,
+    });
+
+    if (!like) {
+      return res.status(404).json({ message: "Like not found" });
+    }
+
+    return res.json({ message: "Like removed" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
   }
 });
 
