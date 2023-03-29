@@ -4,7 +4,7 @@ import { RECEIVE_USER_LOGOUT } from "./session";
 const RECEIVE_POSTS = "posts/RECEIVE_POSTS";
 const RECEIVE_USER_POSTS = "posts/RECEIVE_USER_POSTS";
 const RECEIVE_NEW_POST = "posts/RECEIVE_NEW_POST";
-const RECEIVE_LIKES = "posts/RECEIVE_LIKES";
+const RECEIVE_UPDATED_POST = "posts/RECEIVE_UPDATED_POST";
 const RECEIVE_FRIENDS_POSTS = "posts/RECEIVE_FRIENDS_POSTS";
 const RECEIVE_POST_ERRORS = "posts/RECEIVE_POST_ERRORS";
 const CLEAR_POST_ERRORS = "posts/CLEAR_POST_ERRORS";
@@ -17,6 +17,11 @@ const receivePosts = (posts) => ({
 const receiveUserPosts = (posts) => ({
   type: RECEIVE_USER_POSTS,
   posts,
+});
+
+const receiveUpdatedPost = (post) => ({
+  type: RECEIVE_UPDATED_POST,
+  post,
 });
 
 const receiveNewPost = (post) => ({
@@ -70,6 +75,22 @@ export const fetchUserPosts = (id) => async (dispatch) => {
     const res = await jwtFetch(`/api/posts/user/${id}`);
     const posts = await res.json();
     dispatch(receiveUserPosts(posts));
+  } catch (err) {
+    const resBody = await err.json();
+    if (resBody.statusCode === 400) {
+      return dispatch(receiveErrors(resBody.errors));
+    }
+  }
+};
+
+export const addLikes = (postId) => async (dispatch) => {
+  try {
+    const res = await jwtFetch(`/api/posts/${postId}/likes`, {
+      method: "POST",
+    });
+    const fetch = await jwtFetch("/api/posts");
+    const posts = await fetch.json();
+    dispatch(receivePosts(posts));
   } catch (err) {
     const resBody = await err.json();
     if (resBody.statusCode === 400) {

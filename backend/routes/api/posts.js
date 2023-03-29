@@ -136,7 +136,7 @@ router.post("/:postId/likes", requireUser, async (req, res, next) => {
     post.likes.push(newLike._id);
     await post.save();
 
-    return res.status(200).json({ message: "Like added successfully" });
+    return res.json(post);
   } catch (err) {
     const error = new Error("Post not found");
     error.statusCode = 404;
