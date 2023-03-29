@@ -99,6 +99,22 @@ export const addLikes = (postId) => async (dispatch) => {
   }
 };
 
+export const removeLikes = (postId) => async (dispatch) => {
+  try {
+    const res = await jwtFetch(`/api/posts/${postId}/likes`, {
+      method: "DELETE",
+    });
+    const fetch = await jwtFetch("/api/posts");
+    const posts = await fetch.json();
+    dispatch(receivePosts(posts));
+  } catch (err) {
+    const resBody = await err.json();
+    if (resBody.statusCode === 400) {
+      return dispatch(receiveErrors(resBody.errors));
+    }
+  }
+};
+
 export const composePost = (data) => async (dispatch) => {
   try {
     const res = await jwtFetch("/api/posts/", {

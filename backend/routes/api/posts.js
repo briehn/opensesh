@@ -120,9 +120,10 @@ router.post("/:postId/likes", requireUser, async (req, res, next) => {
       post: post._id,
     });
     if (like) {
-      return res
-        .status(400)
-        .json({ message: "You have already liked this post" });
+      const error = new Error("User already liked this post");
+      error.statusCode = 400;
+      error.errors = { message: "You have already liked this post" };
+      return next(error);
     }
 
     // Create a new like
@@ -133,7 +134,7 @@ router.post("/:postId/likes", requireUser, async (req, res, next) => {
     await newLike.save();
 
     // Add the new like to the post
-    post.likes.push(newLike._id);
+    post.likes.push(newLike.user);
     await post.save();
 
     return res.json(post);

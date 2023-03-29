@@ -25,7 +25,7 @@ function Profile() {
       <>
         <h2>All of {currentUser.username}'s Posts</h2>
         {userPosts.map((post) => (
-          <PostBox key={post._id} text={post.text} />
+          <PostBox key={post._id} post={post} />
         ))}
         <h2>Friends</h2>
         {friends.map((friend) => (
