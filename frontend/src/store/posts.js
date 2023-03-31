@@ -19,11 +19,6 @@ const receiveUserPosts = (posts) => ({
   posts,
 });
 
-const receiveUpdatedPost = (post) => ({
-  type: RECEIVE_UPDATED_POST,
-  post,
-});
-
 const receiveNewPost = (post) => ({
   type: RECEIVE_NEW_POST,
   post,
@@ -85,7 +80,7 @@ export const fetchUserPosts = (id) => async (dispatch) => {
 
 export const addLikes = (postId) => async (dispatch) => {
   try {
-    const res = await jwtFetch(`/api/posts/${postId}/likes`, {
+    await jwtFetch(`/api/posts/${postId}/likes`, {
       method: "POST",
     });
     const fetch = await jwtFetch("/api/posts");
@@ -101,7 +96,7 @@ export const addLikes = (postId) => async (dispatch) => {
 
 export const removeLikes = (postId) => async (dispatch) => {
   try {
-    const res = await jwtFetch(`/api/posts/${postId}/likes`, {
+    await jwtFetch(`/api/posts/${postId}/likes`, {
       method: "DELETE",
     });
     const fetch = await jwtFetch("/api/posts");
@@ -156,8 +151,8 @@ const postsReducer = (
       return { ...state, friends: action.posts, new: undefined };
     case RECEIVE_USER_POSTS:
       return { ...state, user: action.posts, new: undefined };
-    case RECEIVE_NEW_POST:
-      return { ...state, new: action.post };
+    // case RECEIVE_NEW_POST:
+    //   return { ...state, new: action.post };
     case RECEIVE_USER_LOGOUT:
       return { ...state, user: {}, new: undefined };
     default:

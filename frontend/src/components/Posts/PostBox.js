@@ -7,11 +7,11 @@ function PostBox({ post }) {
   const currentUser = useSelector((state) => state.session.user);
 
   //ugly declaration, must fix
-  const username = post ? post.author.username : "";
-  const text = post ? post.text : "";
-  const id = post ? post._id : "";
-  const likes = post ? post.likes.length : 0;
-  const liked = post ? post.likes.includes(currentUser._id) : undefined;
+  const username = post.author.username;
+  const text = post.text;
+  const id = post._id;
+  const likes = post.likes.length;
+  const liked = post.likes.includes(currentUser._id);
   const likeText = liked ? "Dislike" : "Like";
 
   const addLike = (e) => {
