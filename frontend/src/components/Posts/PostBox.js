@@ -5,11 +5,13 @@ import { useEffect, useState } from "react";
 function PostBox({ post }) {
   const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.session.user);
+
+  //ugly declaration, must fix
   const username = post ? post.author.username : "";
   const text = post ? post.text : "";
   const id = post ? post._id : "";
   const likes = post ? post.likes.length : 0;
-  const liked = post.likes.includes(currentUser._id);
+  const liked = post ? post.likes.includes(currentUser._id) : undefined;
   const likeText = liked ? "Dislike" : "Like";
 
   const addLike = (e) => {
@@ -29,8 +31,7 @@ function PostBox({ post }) {
     <div className="post">
       <h3>
         {username ? `${username}:` : ""} {text}
-        {"\n"}
-        Likes: {likes}
+        <div>Likes: {likes}</div>
       </h3>
       <button onClick={addLike}>{likeText}</button>
     </div>

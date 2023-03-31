@@ -5,6 +5,16 @@ import { fetchUserPosts, clearPostErrors } from "../../store/posts";
 import PostBox from "../Posts/PostBox";
 
 function Profile() {
+  /* 
+    TODO:
+      - Add function to view other user profiles
+        + Remove currentUser variable
+          OPTIONS:
+            1) 2 Different Components: (1) My Profile (2) Other Profile
+            2) 1 Component: Adjust component based on view (user or other)
+      - Refactor accordingly for currentUser
+  */
+
   const dispatch = useDispatch();
   const friends = useSelector((state) =>
     state.session.friends ? Object.values(state.session.friends) : {}
