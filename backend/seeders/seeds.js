@@ -2,6 +2,8 @@ const mongoose = require("mongoose");
 const { mongoURI: db } = require("../config/keys.js");
 const User = require("../models/User");
 const Post = require("../models/Post");
+const Like = require("../models/Like");
+const Friend = require("../models/Friend");
 const bcrypt = require("bcryptjs");
 const { faker } = require("@faker-js/faker");
 
@@ -57,6 +59,8 @@ const insertSeeds = () => {
 
   User.collection
     .drop()
+    .then(() => Friend.collection.drop())
+    .then(() => Like.collection.drop())
     .then(() => Post.collection.drop())
     .then(() => User.insertMany(users))
     .then(() => Post.insertMany(posts))

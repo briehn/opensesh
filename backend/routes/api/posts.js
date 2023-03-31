@@ -146,12 +146,15 @@ router.post("/:postId/likes", requireUser, async (req, res, next) => {
   }
 });
 
-router.delete("/:postId/likes", requireUser, async (req, res) => {
+router.delete("/:postId/likes", requireUser, async (req, res, next) => {
   try {
     const post = await Post.findById(req.params.postId);
 
     if (!post) {
-      return res.status(404).json({ message: "Post not found" });
+      const error = new Error("Post not found");
+      error.statusCode = 404;
+      error.errors = { message: "No post found with given Id" };
+      return next(error);
     }
 
     const like = await Like.findOneAndDelete({
@@ -160,13 +163,22 @@ router.delete("/:postId/likes", requireUser, async (req, res) => {
     });
 
     if (!like) {
-      return res.status(404).json({ message: "Like not found" });
+      const error = new Error("Like not found");
+      error.statusCode = 404;
+      error.errors = { message: "No like found with given post" };
+      return next(error);
     }
 
+    post.likes = post.likes.filter((userId) => {
+      userId !== req.user._id;
+    });
+    await post.save();
     return res.json({ message: "Like removed" });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Server error" });
+    const error = new Error("Error found");
+    error.statusCode = 404;
+    error.errors = { message: "Server error with deleting post" };
+    return next(error);
   }
 });
 
