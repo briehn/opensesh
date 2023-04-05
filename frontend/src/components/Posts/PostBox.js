@@ -16,16 +16,10 @@ function PostBox({ post }) {
 
   const addLike = (e) => {
     e.preventDefault();
-    if (liked) {
-      dispatch(removeLikes(id));
-    } else {
-      dispatch(addLikes(id));
-    }
+    liked ? dispatch(removeLikes(id)) : dispatch(addLikes(id));
   };
 
-  if (!post) {
-    return null;
-  }
+  if (!post) return null;
 
   return (
     <div className="post">
