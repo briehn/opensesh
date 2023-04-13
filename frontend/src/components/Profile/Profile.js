@@ -1,8 +1,9 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchFriends } from "../../store/session";
+import { fetchFriends } from "../../store/users";
 import { fetchUserPosts, clearPostErrors } from "../../store/posts";
 import PostBox from "../Posts/PostBox";
+import { useParams } from "react-router-dom";
 
 function Profile() {
   /* 
@@ -16,6 +17,7 @@ function Profile() {
   */
 
   const dispatch = useDispatch();
+  const { username } = useParams();
   const friends = useSelector((state) =>
     state.session.friends ? Object.values(state.session.friends) : {}
   );
