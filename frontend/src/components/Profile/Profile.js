@@ -19,7 +19,7 @@ function Profile() {
   const dispatch = useDispatch();
   const { username } = useParams();
   const friends = useSelector((state) =>
-    state.session.friends ? Object.values(state.session.friends) : {}
+    state.session.friends ? Object.values(state.session.friends) : []
   );
   const currentUser = useSelector((state) => state.session.user);
   const userPosts = useSelector((state) => Object.values(state.posts.user));

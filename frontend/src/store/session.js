@@ -11,11 +11,6 @@ const receiveCurrentUser = (currentUser) => ({
   currentUser,
 });
 
-const receiveUserFriends = (friends) => ({
-  type: RECEIVE_USER_FRIENDS,
-  friends,
-});
-
 // Dispatch receiveErrors to show authentication errors on the frontend.
 const receiveErrors = (errors) => ({
   type: RECEIVE_SESSION_ERRORS,
