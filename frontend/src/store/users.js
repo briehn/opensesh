@@ -26,6 +26,8 @@ export const fetchFriends = (userId) => async (dispatch) => {
   }
 };
 
+//add fetchByUsername
+
 const initialState = {
   user: undefined,
   friends: {},

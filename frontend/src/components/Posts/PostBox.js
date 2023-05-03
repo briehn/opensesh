@@ -1,6 +1,7 @@
 import { addLikes, fetchPosts, removeLikes } from "../../store/posts";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 function PostBox({ post }) {
   const dispatch = useDispatch();
@@ -24,7 +25,10 @@ function PostBox({ post }) {
   return (
     <div className="post">
       <h3>
-        {username ? `${username}:` : ""} {text}
+        <Link to={`/profile/${username}`}>
+          {username ? `${username}:` : ""}{" "}
+        </Link>{" "}
+        {text}
         <div>Likes: {likes}</div>
       </h3>
       <button onClick={addLike}>{likeText}</button>
