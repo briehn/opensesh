@@ -82,6 +82,40 @@ router.get("/:id/likes", async (req, res, next) => {
   }
 });
 
+router.get("/current", restoreUser, (req, res) => {
+  if (!isProduction) {
+    const csrfToken = req.csrfToken();
+    res.cookie("CSRF-TOKEN", csrfToken);
+  }
+  if (!req.user) return res.json(null);
+  res.json({
+    _id: req.user._id,
+    username: req.user.username,
+    email: req.user.email,
+  });
+});
+
+router.get("/search/:username", async (req, res, next) => {
+  try {
+    const user = await User.findOne({
+      username: req.params.username,
+    });
+    return res.json({
+      _id: user._id,
+      username: user.username,
+    });
+  } catch (err) {
+    const error = new Error(
+      "Error has occurred when retrieving user by username"
+    );
+    error.statusCode = 404;
+    error.errors = {
+      message: "Sderverside error when retrieving user info",
+    };
+    return next(error);
+  }
+});
+
 // returns friends of a singular user
 // requireUser: must be logged in to see others friendslist
 router.get("/:id/friends/", async (req, res, next) => {
@@ -118,19 +152,6 @@ router.post("/login", validateLoginInput, async (req, res, next) => {
     }
     return res.json(await loginUser(user));
   })(req, res, next);
-});
-
-router.get("/current", restoreUser, (req, res) => {
-  if (!isProduction) {
-    const csrfToken = req.csrfToken();
-    res.cookie("CSRF-TOKEN", csrfToken);
-  }
-  if (!req.user) return res.json(null);
-  res.json({
-    _id: req.user._id,
-    username: req.user.username,
-    email: req.user.email,
-  });
 });
 
 module.exports = router;

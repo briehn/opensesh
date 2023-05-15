@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchFriends } from "../../store/users";
+import { fetchFriends, fetchByUsername } from "../../store/users";
 import { fetchUserPosts, clearPostErrors } from "../../store/posts";
 import PostBox from "../Posts/PostBox";
 import { useParams } from "react-router-dom";
@@ -19,8 +19,12 @@ function Profile() {
   const dispatch = useDispatch();
 
   const { username } = useParams();
+  const user = useSelector((state) => (state.user ? state.user._id : []));
   //if no username parameter, use currentUser
   const currentUser = useSelector((state) => state.session.user);
+
+  const userId = username ? user : currentUser._id;
+  const profile = username ? username : currentUser.username;
 
   const friends = useSelector((state) =>
     state.session.friends ? Object.values(state.session.friends) : []
@@ -28,17 +32,17 @@ function Profile() {
   const userPosts = useSelector((state) => Object.values(state.posts.user));
 
   useEffect(() => {
-    dispatch(fetchUserPosts(currentUser._id));
-    dispatch(fetchFriends(currentUser._id));
+    dispatch(fetchUserPosts(userId));
+    dispatch(fetchFriends(userId));
     return () => dispatch(clearPostErrors());
-  }, [currentUser, dispatch]);
+  }, [dispatch, username, userId]);
 
   if (userPosts.length === 0) {
-    return <div>{currentUser.username} has no Posts</div>;
+    return <div>{profile} has no Posts</div>;
   } else {
     return (
       <>
-        <h2>All of {currentUser.username}'s Posts</h2>
+        <h2>All of {profile}'s Posts</h2>
         {userPosts.map((post) => (
           <PostBox key={post._id} post={post} />
         ))}
