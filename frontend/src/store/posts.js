@@ -8,6 +8,7 @@ const RECEIVE_UPDATED_POST = "posts/RECEIVE_UPDATED_POST";
 const RECEIVE_FRIENDS_POSTS = "posts/RECEIVE_FRIENDS_POSTS";
 const RECEIVE_POST_ERRORS = "posts/RECEIVE_POST_ERRORS";
 const CLEAR_POST_ERRORS = "posts/CLEAR_POST_ERRORS";
+const CLEAR_POSTS = "posts/CLEAR_POSTS";
 
 const receivePosts = (posts) => ({
   type: RECEIVE_POSTS,
@@ -34,6 +35,10 @@ const receiveErrors = (errors) => ({
   errors,
 });
 
+export const clearPosts = (posts) => ({
+  type: CLEAR_POSTS,
+  posts,
+});
 export const clearPostErrors = (errors) => ({
   type: CLEAR_POST_ERRORS,
   errors,
@@ -151,8 +156,8 @@ const postsReducer = (
       return { ...state, friends: action.posts, new: undefined };
     case RECEIVE_USER_POSTS:
       return { ...state, user: action.posts, new: undefined };
-    // case RECEIVE_NEW_POST:
-    //   return { ...state, new: action.post };
+    case CLEAR_POSTS:
+      return { ...state, user: [], new: undefined };
     case RECEIVE_USER_LOGOUT:
       return { ...state, user: {}, new: undefined };
     default:
