@@ -3,6 +3,7 @@ import jwtFetch from "./jwt";
 const RECEIVE_USER_FRIENDS = "users/RECEIVE_USER_FRIENDS";
 const RECEIVE_USER_ERRORS = "users/RECEIVE_USER_ERRORS";
 const RECEIVE_BY_USERNAME = "users/RECEIVE_BY_USERNAME";
+const CLEAR_USER = "users/CLEAR_USER";
 
 const receiveUserFriends = (friends) => ({
   type: RECEIVE_USER_FRIENDS,
@@ -17,6 +18,11 @@ const receiveErrors = (errors) => ({
 const receiveByUsername = (username) => ({
   type: RECEIVE_BY_USERNAME,
   username,
+});
+
+const clearUser = (user) => ({
+  type: CLEAR_USER,
+  user,
 });
 
 export const fetchFriends = (userId) => async (dispatch) => {
@@ -57,6 +63,8 @@ const usersReducer = (state = initialState, action) => {
       return { ...state, friends: action.friends };
     case RECEIVE_BY_USERNAME:
       return { ...state, user: action.username };
+    case CLEAR_USER:
+      return { ...state, user: undefined };
     default:
       return state;
   }

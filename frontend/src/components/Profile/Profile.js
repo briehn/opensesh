@@ -25,7 +25,7 @@ function Profile() {
   //if no username parameter, use currentUser
   const currentUser = useSelector((state) => state.session.user);
 
-  const userId = user ? user : currentUser._id;
+  const userId = user[0] ? user : currentUser._id;
   const profile = username ? username : currentUser.username;
 
   const friends = useSelector((state) =>
@@ -40,7 +40,6 @@ function Profile() {
   }, [dispatch, username]);
 
   useEffect(() => {
-    console.log(userId);
     dispatch(fetchUserPosts(userId));
     dispatch(fetchFriends(userId));
     return () => {

@@ -31,7 +31,11 @@ function App() {
 
           <ProtectedRoute exact path="/" component={MainPage} />
           <ProtectedRoute exact path="/posts" component={Posts} />
-          <ProtectedRoute exact path="/profile/:username" component={Profile} />
+          <ProtectedRoute
+            exact
+            path="/profile/:username?"
+            component={Profile}
+          />
 
           <ProtectedRoute exact path="/posts/new" component={PostCompose} />
         </Switch>
