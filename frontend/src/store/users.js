@@ -20,7 +20,7 @@ const receiveByUsername = (username) => ({
   username,
 });
 
-const clearUser = (user) => ({
+export const clearUser = (user) => ({
   type: CLEAR_USER,
   user,
 });
