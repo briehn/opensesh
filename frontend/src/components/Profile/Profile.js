@@ -20,14 +20,13 @@ function Profile() {
 
   const { username } = useParams();
   const user = useSelector((state) =>
-    state.users.user ? state.users.user : []
+    state.users.user ? state.users.user : state.session.user
   );
   //if no username parameter, use currentUser
-  const currentUser = useSelector((state) => state.session.user);
 
   const profile = {
-    _id: user[0] ? user._id : currentUser._id,
-    username: username ? username : currentUser.username,
+    _id: user._id,
+    username: user.username,
   };
 
   const friends = useSelector((state) =>
