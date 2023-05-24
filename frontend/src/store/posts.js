@@ -157,7 +157,7 @@ const postsReducer = (
     case RECEIVE_USER_POSTS:
       return { ...state, user: action.posts, new: undefined };
     case CLEAR_POSTS:
-      return { ...state, user: [], new: undefined };
+      return { ...state, all: {}, user: {}, new: undefined };
     case RECEIVE_USER_LOGOUT:
       return { ...state, user: {}, new: undefined };
     default:

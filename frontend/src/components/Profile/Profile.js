@@ -38,12 +38,16 @@ function Profile() {
     if (username) {
       dispatch(fetchByUsername(username));
     }
+    return () => {
+      dispatch(clearUser());
+    };
   }, [dispatch, username]);
 
   useEffect(() => {
     dispatch(fetchUserPosts(profile._id));
     dispatch(fetchFriends(profile._id));
     return () => {
+      dispatch(clearPosts());
       dispatch(clearPostErrors());
     };
   }, [dispatch, profile._id]);

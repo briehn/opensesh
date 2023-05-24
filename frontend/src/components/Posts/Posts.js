@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { clearPostErrors, fetchPosts } from "../../store/posts";
+import { clearPostErrors, fetchPosts, clearPosts } from "../../store/posts";
 import PostBox from "./PostBox";
 
 function Posts() {
@@ -9,7 +9,10 @@ function Posts() {
 
   useEffect(() => {
     dispatch(fetchPosts());
-    return () => dispatch(clearPostErrors());
+    return () => {
+      dispatch(clearPosts());
+      dispatch(clearPostErrors());
+    };
   }, [dispatch]);
 
   if (posts.length === 0) return <div>There are no Posts</div>;
