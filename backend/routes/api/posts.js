@@ -58,11 +58,6 @@ router.get("/:postId/", async (req, res) => {
 router.get("/:postId/likes", async (req, res) => {
   const postId = req.params.postId;
   try {
-    // const likesCount = await Like.aggregate([
-    //   { $match: { post: mongoose.Types.ObjectId(postId) } },
-    //   { $group: { _id: "$post", count: { $sum: 1 } } },
-    // ]);
-    // res.json({ likes: likesCount[0]?.count ?? 0 });
     const post = await Post.findById(postId);
     return res.json(post.likes);
   } catch (err) {

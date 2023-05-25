@@ -20,9 +20,11 @@ function Posts() {
   return (
     <>
       <h2>All Posts</h2>
-      {posts.map((post) => (
-        <PostBox key={post._id} post={post} />
-      ))}
+      <div className="feed">
+        {posts.map((post) => (
+          <PostBox key={post._id} post={post} />
+        ))}
+      </div>
     </>
   );
 }

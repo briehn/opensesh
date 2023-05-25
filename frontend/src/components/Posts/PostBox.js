@@ -8,6 +8,8 @@ function PostBox({ post }) {
   const currentUser = useSelector((state) => state.session.user);
 
   //ugly declaration, must fix
+
+  if (!post) return null;
   const username = post.author.username;
   const text = post.text;
   const id = post._id;
@@ -18,11 +20,7 @@ function PostBox({ post }) {
   const addLike = (e) => {
     e.preventDefault();
     liked ? dispatch(removeLikes(id)) : dispatch(addLikes(id));
-    console.log(liked);
-    console.log(post.likes);
   };
-
-  if (!post) return null;
 
   return (
     <div className="post">
