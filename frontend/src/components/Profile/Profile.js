@@ -22,7 +22,6 @@ function Profile() {
   const user = useSelector((state) =>
     state.users.user ? state.users.user : state.session.user
   );
-  //if no username parameter, use currentUser
 
   const profile = {
     _id: user._id,

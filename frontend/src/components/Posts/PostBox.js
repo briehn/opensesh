@@ -1,4 +1,9 @@
-import { addLikes, fetchPosts, removeLikes } from "../../store/posts";
+import {
+  addLikes,
+  fetchPost,
+  removeLikes,
+  updatePost,
+} from "../../store/posts";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
@@ -18,6 +23,8 @@ function PostBox({ post }) {
   const addLike = (e) => {
     e.preventDefault();
     liked ? dispatch(removeLikes(id)) : dispatch(addLikes(id));
+    console.log(liked);
+    console.log(post.likes);
   };
 
   if (!post) return null;

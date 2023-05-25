@@ -14,7 +14,7 @@ function MainPage() {
   const posts = useSelector((state) =>
     filter ? Object.values(state.posts.friends) : Object.values(state.posts.all)
   );
-  const heading = filter ? "Your Circle" : "Popular Posts";
+  const heading = filter ? "Your Sesh" : "Popular Posts";
 
   useEffect(() => {
     if (filter) {

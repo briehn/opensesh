@@ -35,7 +35,9 @@ function NavBar() {
 
   return (
     <nav className="navbar">
-      <h1>OpenSesh</h1>
+      <h1>
+        <Link to={"/"}>OpenSesh</Link>
+      </h1>
       {getLinks()}
     </nav>
   );

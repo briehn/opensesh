@@ -42,14 +42,29 @@ router.get("/user/:userId/friends", async (req, res, next) => {
   }
 });
 
+router.get("/:postId/", async (req, res) => {
+  const postId = req.params.postId;
+  try {
+    const post = await Post.findById(postId);
+    return res.json(post);
+  } catch (err) {
+    const error = new Error("Post not found");
+    error.statusCode = 404;
+    error.errors = { message: "No post found with that id" };
+    return next(error);
+  }
+});
+
 router.get("/:postId/likes", async (req, res) => {
   const postId = req.params.postId;
   try {
-    const likesCount = await Like.aggregate([
-      { $match: { post: mongoose.Types.ObjectId(postId) } },
-      { $group: { _id: "$post", count: { $sum: 1 } } },
-    ]);
-    res.json({ likes: likesCount[0]?.count ?? 0 });
+    // const likesCount = await Like.aggregate([
+    //   { $match: { post: mongoose.Types.ObjectId(postId) } },
+    //   { $group: { _id: "$post", count: { $sum: 1 } } },
+    // ]);
+    // res.json({ likes: likesCount[0]?.count ?? 0 });
+    const post = await Post.findById(postId);
+    return res.json(post.likes);
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Internal server error" });

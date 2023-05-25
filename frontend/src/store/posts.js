@@ -9,10 +9,21 @@ const RECEIVE_FRIENDS_POSTS = "posts/RECEIVE_FRIENDS_POSTS";
 const RECEIVE_POST_ERRORS = "posts/RECEIVE_POST_ERRORS";
 const CLEAR_POST_ERRORS = "posts/CLEAR_POST_ERRORS";
 const CLEAR_POSTS = "posts/CLEAR_POSTS";
+const RECEIVE_POST = "posts/RECEIVE_POST";
 
 const receivePosts = (posts) => ({
   type: RECEIVE_POSTS,
   posts,
+});
+
+const receiveUpdatedPost = (post) => ({
+  type: RECEIVE_UPDATED_POST,
+  post,
+});
+
+const receivePost = (post) => ({
+  type: RECEIVE_POST,
+  post,
 });
 
 const receiveUserPosts = (posts) => ({
@@ -49,6 +60,32 @@ export const fetchPosts = () => async (dispatch) => {
     const res = await jwtFetch("/api/posts");
     const posts = await res.json();
     dispatch(receivePosts(posts));
+  } catch (err) {
+    const resBody = await err.json();
+    if (resBody.statusCode === 400) {
+      dispatch(receiveErrors(resBody.errors));
+    }
+  }
+};
+
+export const updatePost = (postId) => async (dispatch) => {
+  try {
+    const res = await jwtFetch(`/api/posts/${postId}`);
+    const post = await res.json();
+    dispatch(receiveUpdatedPost(post));
+  } catch (err) {
+    const resBody = await err.json();
+    if (resBody.statusCode === 400) {
+      dispatch(receiveErrors(resBody.errors));
+    }
+  }
+};
+
+export const fetchPost = (id) => async (dispatch) => {
+  try {
+    const res = await jwtFetch(`/api/posts/${id}/`);
+    const post = await res.json();
+    dispatch(receivePost(post));
   } catch (err) {
     const resBody = await err.json();
     if (resBody.statusCode === 400) {
