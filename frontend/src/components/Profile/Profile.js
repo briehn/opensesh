@@ -1,21 +1,11 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchFriends, fetchByUsername, clearUser } from "../../store/users";
-import { fetchUserPosts, clearPostErrors, clearPosts } from "../../store/posts";
+import { fetchPosts, clearPostErrors, clearPosts } from "../../store/posts";
 import PostBox from "../Posts/PostBox";
 import { useParams } from "react-router-dom";
 
 function Profile() {
-  /* 
-    TODO:
-      - Add function to view other user profiles
-        + Remove currentUser variable
-          OPTIONS:
-            1) 2 Different Components: (1) My Profile (2) Other Profile
-            2) 1 Component: Adjust component based on view (user or other)
-      - Refactor accordingly for currentUser
-  */
-
   const dispatch = useDispatch();
 
   const { username } = useParams();
@@ -31,7 +21,7 @@ function Profile() {
   const friends = useSelector((state) =>
     state.session.friends ? Object.values(state.session.friends) : []
   );
-  const userPosts = useSelector((state) => Object.values(state.posts.user));
+  const userPosts = useSelector((state) => Object.values(state.posts.display));
 
   useEffect(() => {
     if (username) {
@@ -43,7 +33,7 @@ function Profile() {
   }, [dispatch, username]);
 
   useEffect(() => {
-    dispatch(fetchUserPosts(profile._id));
+    dispatch(fetchPosts("user", profile._id));
     dispatch(fetchFriends(profile._id));
     return () => {
       dispatch(clearPosts());

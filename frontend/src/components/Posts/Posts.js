@@ -5,10 +5,10 @@ import PostBox from "./PostBox";
 
 function Posts() {
   const dispatch = useDispatch();
-  const posts = useSelector((state) => Object.values(state.posts.all));
+  const posts = useSelector((state) => Object.values(state.posts.display));
 
   useEffect(() => {
-    dispatch(fetchPosts());
+    dispatch(fetchPosts("all"));
     return () => {
       dispatch(clearPosts());
       dispatch(clearPostErrors());

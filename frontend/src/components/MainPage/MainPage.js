@@ -1,10 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  clearPostErrors,
-  fetchPosts,
-  fetchFriendPosts,
-} from "../../store/posts";
+import { clearPostErrors, fetchPosts } from "../../store/posts";
 import PostBox from "../Posts/PostBox";
 
 function MainPage() {
@@ -18,9 +14,9 @@ function MainPage() {
 
   useEffect(() => {
     if (filter) {
-      dispatch(fetchFriendPosts(currentUser._id));
+      dispatch(fetchPosts("friend", currentUser._id));
     } else {
-      dispatch(fetchPosts());
+      dispatch(fetchPosts("all"));
     }
   }, [dispatch, filter, currentUser._id]);
 

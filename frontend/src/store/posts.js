@@ -2,10 +2,8 @@ import jwtFetch from "./jwt";
 import { RECEIVE_USER_LOGOUT } from "./session";
 
 const RECEIVE_POSTS = "posts/RECEIVE_POSTS";
-const RECEIVE_USER_POSTS = "posts/RECEIVE_USER_POSTS";
 const RECEIVE_NEW_POST = "posts/RECEIVE_NEW_POST";
 const RECEIVE_UPDATED_POST = "posts/RECEIVE_UPDATED_POST";
-const RECEIVE_FRIENDS_POSTS = "posts/RECEIVE_FRIENDS_POSTS";
 const RECEIVE_POST_ERRORS = "posts/RECEIVE_POST_ERRORS";
 const CLEAR_POST_ERRORS = "posts/CLEAR_POST_ERRORS";
 const CLEAR_POSTS = "posts/CLEAR_POSTS";
@@ -16,29 +14,20 @@ const receivePosts = (posts) => ({
   posts,
 });
 
+const receivePost = (post) => ({
+  //unused
+  type: RECEIVE_POST,
+  post,
+});
+
 const receiveUpdatedPost = (post) => ({
   type: RECEIVE_UPDATED_POST,
   post,
 });
 
-const receivePost = (post) => ({
-  type: RECEIVE_POST,
-  post,
-});
-
-const receiveUserPosts = (posts) => ({
-  type: RECEIVE_USER_POSTS,
-  posts,
-});
-
 const receiveNewPost = (post) => ({
   type: RECEIVE_NEW_POST,
   post,
-});
-
-const receiveFriendPost = (posts) => ({
-  type: RECEIVE_FRIENDS_POSTS,
-  posts,
 });
 
 const receiveErrors = (errors) => ({
@@ -50,23 +39,11 @@ export const clearPosts = (posts) => ({
   type: CLEAR_POSTS,
   posts,
 });
+
 export const clearPostErrors = (errors) => ({
   type: CLEAR_POST_ERRORS,
   errors,
 });
-
-export const fetchPosts = () => async (dispatch) => {
-  try {
-    const res = await jwtFetch("/api/posts");
-    const posts = await res.json();
-    dispatch(receivePosts(posts));
-  } catch (err) {
-    const resBody = await err.json();
-    if (resBody.statusCode === 400) {
-      dispatch(receiveErrors(resBody.errors));
-    }
-  }
-};
 
 export const updatePost = (postId) => async (dispatch) => {
   try {
@@ -81,44 +58,35 @@ export const updatePost = (postId) => async (dispatch) => {
   }
 };
 
-export const fetchPost = (id) => async (dispatch) => {
-  try {
-    const res = await jwtFetch(`/api/posts/${id}/`);
-    const post = await res.json();
-    dispatch(receivePost(post));
-  } catch (err) {
-    const resBody = await err.json();
-    if (resBody.statusCode === 400) {
-      dispatch(receiveErrors(resBody.errors));
+export const fetchPosts =
+  (
+    type,
+    userId = 0 //default value in the case typeId = 0
+  ) =>
+  async (dispatch) => {
+    /*  TYPES
+        0: ALL
+        1: USER
+        2: FRIENDS
+        3: SPECIFIC
+    */
+    const types = {
+      all: `/api/posts`,
+      user: `/api/posts/user/${userId}`,
+      friend: `/api/posts/user/${userId}/friends`,
+      one: `/api/posts/${userId}/`,
+    };
+    try {
+      const res = await jwtFetch(types[type]);
+      const posts = await res.json();
+      dispatch(receivePosts(posts));
+    } catch (err) {
+      const resBody = await err.json();
+      if (resBody.statusCode === 400) {
+        dispatch(receiveErrors(resBody.errors));
+      }
     }
-  }
-};
-
-export const fetchFriendPosts = (id) => async (dispatch) => {
-  try {
-    const res = await jwtFetch(`/api/posts/user/${id}/friends`);
-    const posts = await res.json();
-    dispatch(receiveFriendPost(posts));
-  } catch (err) {
-    const resBody = await err.json();
-    if (resBody.statusCode === 400) {
-      dispatch(receiveErrors(resBody.errors));
-    }
-  }
-};
-
-export const fetchUserPosts = (id) => async (dispatch) => {
-  try {
-    const res = await jwtFetch(`/api/posts/user/${id}`);
-    const posts = await res.json();
-    dispatch(receiveUserPosts(posts));
-  } catch (err) {
-    const resBody = await err.json();
-    if (resBody.statusCode === 400) {
-      return dispatch(receiveErrors(resBody.errors));
-    }
-  }
-};
+  };
 
 export const addLikes = (postId) => async (dispatch) => {
   try {
@@ -182,21 +150,14 @@ export const postErrorsReducer = (state = nullErrors, action) => {
   }
 };
 
-const postsReducer = (
-  state = { all: {}, friends: {}, user: {}, new: undefined },
-  action
-) => {
+const postsReducer = (state = { display: {} }, action) => {
   switch (action.type) {
     case RECEIVE_POSTS:
-      return { ...state, all: action.posts, new: undefined };
-    case RECEIVE_FRIENDS_POSTS:
-      return { ...state, friends: action.posts, new: undefined };
-    case RECEIVE_USER_POSTS:
-      return { ...state, user: action.posts, new: undefined };
+      return { ...state, display: action.posts };
     case CLEAR_POSTS:
-      return { ...state, all: {}, user: {}, new: undefined };
+      return { ...state, display: {} };
     case RECEIVE_USER_LOGOUT:
-      return { ...state, user: {}, new: undefined };
+      return { ...state, display: {} };
     default:
       return state;
   }

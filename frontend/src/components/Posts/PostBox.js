@@ -1,9 +1,4 @@
-import {
-  addLikes,
-  fetchPost,
-  removeLikes,
-  updatePost,
-} from "../../store/posts";
+import { addLikes, removeLikes } from "../../store/posts";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
