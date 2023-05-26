@@ -45,7 +45,7 @@ router.get("/user/:userId/friends", async (req, res, next) => {
 router.get("/:postId/", async (req, res) => {
   const postId = req.params.postId;
   try {
-    const post = await Post.findById(postId);
+    const post = await Post.findById(postId).populate("author", "id, username");
     return res.json(post);
   } catch (err) {
     const error = new Error("Post not found");

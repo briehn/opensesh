@@ -93,9 +93,9 @@ export const addLikes = (postId) => async (dispatch) => {
     await jwtFetch(`/api/posts/${postId}/likes`, {
       method: "POST",
     });
-    const fetch = await jwtFetch("/api/posts");
-    const posts = await fetch.json();
-    dispatch(receivePosts(posts));
+    const fetch = await jwtFetch(`/api/posts/${postId}`);
+    const post = await fetch.json();
+    dispatch(receivePost(post));
   } catch (err) {
     const resBody = await err.json();
     if (resBody.statusCode === 400) {
@@ -109,9 +109,9 @@ export const removeLikes = (postId) => async (dispatch) => {
     await jwtFetch(`/api/posts/${postId}/likes`, {
       method: "DELETE",
     });
-    const fetch = await jwtFetch("/api/posts");
-    const posts = await fetch.json();
-    dispatch(receivePosts(posts));
+    const fetch = await jwtFetch(`/api/posts/${postId}`);
+    const post = await fetch.json();
+    dispatch(receivePost(post));
   } catch (err) {
     const resBody = await err.json();
     if (resBody.statusCode === 400) {
@@ -154,6 +154,17 @@ const postsReducer = (state = { display: {} }, action) => {
   switch (action.type) {
     case RECEIVE_POSTS:
       return { ...state, display: action.posts };
+    case RECEIVE_POST:
+      const idx = state.display.findIndex(
+        (post) => post._id === action.post._id
+      );
+      const updatedDisplay = [...state.display];
+      updatedDisplay[idx] = action.post;
+
+      return {
+        ...state,
+        display: updatedDisplay,
+      };
     case CLEAR_POSTS:
       return { ...state, display: {} };
     case RECEIVE_USER_LOGOUT:
