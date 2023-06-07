@@ -22,6 +22,7 @@ function Profile() {
     state.session.friends ? Object.values(state.session.friends) : []
   );
   const userPosts = useSelector((state) => Object.values(state.posts.display));
+  const isOtherUser = username ? true : false;
 
   useEffect(() => {
     if (username) {
@@ -46,6 +47,7 @@ function Profile() {
   } else {
     return (
       <>
+        <div>{isOtherUser ? "Is Friend" : "Is User"}</div>
         <h2>All of {profile.username}'s Posts</h2>
         {userPosts.map((post) => (
           <PostBox key={post._id} post={post} />

@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { clearPostErrors, composePost } from "../../store/posts";
-import PostBox from "./PostBox";
 
 function PostCompose() {
   const [text, setText] = useState("");
