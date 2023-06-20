@@ -2,6 +2,8 @@ import { addLikes, removeLikes } from "../../store/posts";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
+import "./PostBox.css";
+
 function PostBox({ post }) {
   const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.session.user);
@@ -23,7 +25,7 @@ function PostBox({ post }) {
 
   return (
     <div className="post">
-      <h3>
+      <div className="postbox-container">
         <Link
           to={
             username === currentUser.username
@@ -35,8 +37,8 @@ function PostBox({ post }) {
         </Link>{" "}
         {text}
         <div>Likes: {likes}</div>
-      </h3>
-      <button onClick={addLike}>{likeText}</button>
+        <button onClick={addLike}>{likeText}</button>
+      </div>
     </div>
   );
 }
