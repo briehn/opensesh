@@ -1,3 +1,7 @@
-.post {
-  background-color: red;
+.postbox-container {
+  background-color: antiquewhite !important;
+  margin-bottom: 20px;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid black;
 }
