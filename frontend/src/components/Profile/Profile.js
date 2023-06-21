@@ -47,7 +47,6 @@ function Profile() {
   } else {
     return (
       <>
-        <div>{isOtherUser ? "Is Friend" : "Is User"}</div>
         <h2>All of {profile.username}'s Posts</h2>
         {userPosts.map((post) => (
           <PostBox key={post._id} post={post} />
