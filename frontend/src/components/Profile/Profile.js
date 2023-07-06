@@ -4,6 +4,8 @@ import { fetchFriends, fetchByUsername, clearUser } from "../../store/users";
 import { fetchPosts, clearPostErrors, clearPosts } from "../../store/posts";
 import PostBox from "../Posts/PostBox";
 import { useParams } from "react-router-dom";
+import AddFriendButton from "./AddFriendButton";
+import { Link } from "react-router-dom";
 
 function Profile() {
   const dispatch = useDispatch();
@@ -19,7 +21,7 @@ function Profile() {
   };
 
   const friends = useSelector((state) =>
-    state.session.friends ? Object.values(state.session.friends) : []
+    state.users.friends ? Object.values(state.users.friends) : []
   );
   const userPosts = useSelector((state) => Object.values(state.posts.display));
   const isOtherUser = username ? true : false;
@@ -47,13 +49,19 @@ function Profile() {
   } else {
     return (
       <>
+        {isOtherUser && (
+          <AddFriendButton friendId={profile._id}></AddFriendButton>
+        )}
         <h2>All of {profile.username}'s Posts</h2>
         {userPosts.map((post) => (
           <PostBox key={post._id} post={post} />
         ))}
         <h2>Friends</h2>
         {friends.map((friend) => (
-          <div key={friend._id}>{friend.username}</div>
+          // <div key={friend._id}>{friend.username}</div>
+          <Link to={`/profile/${friend.username}`}>
+            {friend.username ? `${friend.username}` : ""}
+          </Link>
         ))}
       </>
     );

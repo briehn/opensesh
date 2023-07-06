@@ -4,12 +4,13 @@ import { addFriend, removeFriend } from "../../store/friendAction";
 
 const AddFriendButton = ({ friendId }) => {
   const dispatch = useDispatch();
-  const friends = useSelector((state) => state.friend.friends);
+  const cuId = useSelector((state) => state.session.user._id);
+  const friends = useSelector((state) => state.users.friends);
 
   const isFriend = friends.some((friend) => friend._id === friendId);
 
   const handleAddFriend = () => {
-    dispatch(addFriend(friendId));
+    dispatch(addFriend(friendId, cuId));
   };
 
   const handleRemoveFriend = () => {
