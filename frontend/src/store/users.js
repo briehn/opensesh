@@ -54,7 +54,7 @@ export const fetchByUsername = (username) => async (dispatch) => {
 
 const initialState = {
   user: undefined,
-  friends: {},
+  friends: [],
 };
 
 const usersReducer = (state = initialState, action) => {

@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchFriends, fetchByUsername, clearUser } from "../../store/users";
 import { fetchPosts, clearPostErrors, clearPosts } from "../../store/posts";
+import { fetchMyFriends } from "../../store/session";
 import PostBox from "../Posts/PostBox";
 import { useParams } from "react-router-dom";
 import AddFriendButton from "./AddFriendButton";
@@ -9,7 +10,9 @@ import { Link } from "react-router-dom";
 
 function Profile() {
   const dispatch = useDispatch();
-
+  const cuId = useSelector((state) =>
+    state.session.user ? state.session.user._id : null
+  );
   const { username } = useParams();
   const user = useSelector((state) =>
     state.users.user ? state.users.user : state.session.user
@@ -20,11 +23,17 @@ function Profile() {
     username: user.username,
   };
 
+  const isOtherUser = username ? true : false;
   const friends = useSelector((state) =>
-    state.users.friends ? Object.values(state.users.friends) : []
+    isOtherUser
+      ? state.users.friends
+        ? Object.values(state.users.friends)
+        : []
+      : state.session.friends
+      ? Object.values(state.session.friends)
+      : []
   );
   const userPosts = useSelector((state) => Object.values(state.posts.display));
-  const isOtherUser = username ? true : false;
 
   useEffect(() => {
     if (username) {
@@ -38,11 +47,12 @@ function Profile() {
   useEffect(() => {
     dispatch(fetchPosts("user", profile._id));
     dispatch(fetchFriends(profile._id));
+    dispatch(fetchMyFriends(cuId));
     return () => {
       dispatch(clearPosts());
       dispatch(clearPostErrors());
     };
-  }, [dispatch, profile._id]);
+  }, [dispatch, profile._id, cuId]);
 
   if (userPosts.length === 0) {
     return <div>{profile.username} has no Posts</div>;

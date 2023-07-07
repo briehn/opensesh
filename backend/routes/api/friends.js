@@ -18,6 +18,11 @@ router.post("/:friendId", requireUser, async (req, res, next) => {
   }
 });
 
+/*
+ Weird, don't use findByIdAndDelete,
+ Instead, search by userId and friendId
+*/
+
 router.delete("/:friendId", requireUser, async (req, res, next) => {
   Friend.findByIdAndDelete(req.params.friendId, (err, itn) => {
     if (err) {
