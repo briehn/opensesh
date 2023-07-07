@@ -69,9 +69,11 @@ function Profile() {
         <h2>Friends</h2>
         {friends.map((friend) => (
           // <div key={friend._id}>{friend.username}</div>
-          <Link to={`/profile/${friend.username}`}>
-            {friend.username ? `${friend.username}` : ""}
-          </Link>
+          <div>
+            <Link to={`/profile/${friend.username}`}>
+              {friend.username ? `${friend.username}` : ""}
+            </Link>
+          </div>
         ))}
       </>
     );

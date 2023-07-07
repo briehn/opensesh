@@ -7,7 +7,9 @@ function MainPage() {
   const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.session.user);
   const [filter, setFilter] = useState(true);
-  const posts = useSelector((state) => Object.values(state.posts.display));
+  const posts = useSelector((state) =>
+    state.posts.display ? Object.values(state.posts.display) : []
+  );
   const heading = filter ? "Your Sesh" : "Popular Posts";
 
   useEffect(() => {
@@ -22,27 +24,26 @@ function MainPage() {
     };
   }, [dispatch, filter, currentUser._id]);
 
+  console.log(posts.length);
+
   if (posts.length === 0) {
     return (
       <>
         <h2>{heading}</h2>
-        <div>There are no Posts</div>
+        <div>No posts to display.</div>
+        <footer>&copy; 2023 OpenSesh</footer>
       </>
     );
-  } else
-    return (
-      <>
-        <h2>{heading}</h2>
-        {posts.map((post) => (
-          <PostBox
-            key={post._id}
-            text={post.text}
-            username={post.author.username}
-          />
-        ))}
-        <footer>Copyright &copy; 2023 OpenSesh</footer>
-      </>
-    );
+  }
+  return (
+    <>
+      <h2>{heading}</h2>
+      {posts.map((post) => (
+        <PostBox key={post._id} post={post} />
+      ))}
+      <footer>&copy; 2023 OpenSesh</footer>
+    </>
+  );
 }
 
 export default MainPage;

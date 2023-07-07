@@ -23,14 +23,14 @@ router.post("/:friendId", requireUser, async (req, res, next) => {
  Instead, search by userId and friendId
 */
 
-router.delete("/:friendId", requireUser, async (req, res, next) => {
-  Friend.findByIdAndDelete(req.params.friendId, (err, itn) => {
-    if (err) {
-      res.status(400).send(err);
-    } else {
-      res.send({ Success: "Friend deleted" });
-    }
-  });
-});
+// router.delete("/:friendId", requireUser, async (req, res, next) => {
+//   Friend.findByIdAndDelete(req.params.friendId, (err, itn) => {
+//     if (err) {
+//       res.status(400).send(err);
+//     } else {
+//       res.send({ Success: "Friend deleted" });
+//     }
+//   });
+// });
 
 module.exports = router;
