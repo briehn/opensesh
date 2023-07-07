@@ -48,18 +48,17 @@ function Profile() {
   }, [dispatch, username]);
 
   useEffect(() => {
-    dispatch(fetchPosts("user", profile._id));
-    const fetchUserPosts = async () => {
+    const fetchInfo = async () => {
       try {
         await dispatch(fetchPosts("user", profile._id));
-        setLoading(false); // Set loading to false once posts are fetched
+        await dispatch(fetchFriends(profile._id));
+        await dispatch(fetchMyFriends(cuId));
+        setLoading(false);
       } catch (error) {
         console.error(error);
       }
     };
-    dispatch(fetchFriends(profile._id));
-    dispatch(fetchMyFriends(cuId));
-    fetchUserPosts();
+    fetchInfo();
     return () => {
       dispatch(clearPosts());
       dispatch(clearPostErrors());
@@ -69,7 +68,7 @@ function Profile() {
   const isFriend = friends.some((friend) => friend._id === profile._id);
 
   if (loading) {
-    return <div>Loading...</div>; // Display a loading message while fetching data
+    return <div>Loading...</div>;
   }
 
   return (
