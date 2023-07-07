@@ -7,6 +7,7 @@ import PostBox from "../Posts/PostBox";
 import { useParams } from "react-router-dom";
 import AddFriendButton from "./AddFriendButton";
 import { Link } from "react-router-dom";
+import { useState } from "react";
 
 function Profile() {
   const dispatch = useDispatch();
@@ -35,6 +36,8 @@ function Profile() {
   );
   const userPosts = useSelector((state) => Object.values(state.posts.display));
 
+  const [loading, setLoading] = useState(true); // Add loading state
+
   useEffect(() => {
     if (username) {
       dispatch(fetchByUsername(username));
@@ -46,38 +49,52 @@ function Profile() {
 
   useEffect(() => {
     dispatch(fetchPosts("user", profile._id));
+    const fetchUserPosts = async () => {
+      try {
+        await dispatch(fetchPosts("user", profile._id));
+        setLoading(false); // Set loading to false once posts are fetched
+      } catch (error) {
+        console.error(error);
+      }
+    };
     dispatch(fetchFriends(profile._id));
     dispatch(fetchMyFriends(cuId));
+    fetchUserPosts();
     return () => {
       dispatch(clearPosts());
       dispatch(clearPostErrors());
     };
   }, [dispatch, profile._id, cuId]);
 
-  if (userPosts.length === 0) {
-    return <div>{profile.username} has no Posts</div>;
-  } else {
-    return (
-      <>
-        {isOtherUser && (
-          <AddFriendButton friendId={profile._id}></AddFriendButton>
-        )}
-        <h2>All of {profile.username}'s Posts</h2>
-        {userPosts.map((post) => (
-          <PostBox key={post._id} post={post} />
-        ))}
-        <h2>Friends</h2>
-        {friends.map((friend) => (
-          // <div key={friend._id}>{friend.username}</div>
-          <div>
-            <Link to={`/profile/${friend.username}`}>
-              {friend.username ? `${friend.username}` : ""}
-            </Link>
-          </div>
-        ))}
-      </>
-    );
+  const isFriend = friends.some((friend) => friend._id === profile._id);
+
+  if (loading) {
+    return <div>Loading...</div>; // Display a loading message while fetching data
   }
+
+  return (
+    <>
+      {isOtherUser && (
+        <AddFriendButton
+          friendId={profile._id}
+          isFriend={isFriend}
+        ></AddFriendButton>
+      )}
+      <h2>All of {profile.username}'s Posts</h2>
+      {userPosts.map((post) => (
+        <PostBox key={post._id} post={post} />
+      ))}
+      <h2>Friends</h2>
+      {friends.map((friend) => (
+        // <div key={friend._id}>{friend.username}</div>
+        <div>
+          <Link to={`/profile/${friend.username}`}>
+            {friend.username ? `${friend.username}` : ""}
+          </Link>
+        </div>
+      ))}
+    </>
+  );
 }
 
 export default Profile;

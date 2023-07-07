@@ -38,7 +38,6 @@ export const fetchFriends = (userId) => async (dispatch) => {
   }
 };
 
-//add fetchByUsername
 export const fetchByUsername = (username) => async (dispatch) => {
   try {
     const res = await jwtFetch(`/api/users/search/${username}`);
