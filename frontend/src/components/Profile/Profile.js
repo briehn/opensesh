@@ -18,6 +18,12 @@ function Profile() {
   const user = useSelector((state) =>
     state.users.user ? state.users.user : state.session.user
   );
+  const cuFriends = useSelector((state) =>
+    state.session.user ? state.session.friends : []
+  );
+  const userFriends = useSelector((state) =>
+    state.users.friends ? state.users.friends : []
+  );
 
   const profile = {
     _id: user._id,
@@ -27,13 +33,18 @@ function Profile() {
   const isOtherUser = username ? true : false;
   const friends = useSelector((state) =>
     isOtherUser
-      ? state.users.friends
-        ? Object.values(state.users.friends)
+      ? userFriends
+        ? Object.values(userFriends)
         : []
-      : state.session.friends
-      ? Object.values(state.session.friends)
+      : cuFriends
+      ? Object.values(cuFriends)
       : []
   );
+
+  const isFriend = Object.values(cuFriends).some(
+    (friend) => friend._id === profile._id
+  );
+
   const userPosts = useSelector((state) => Object.values(state.posts.display));
 
   const [loading, setLoading] = useState(true); // Add loading state
@@ -64,8 +75,6 @@ function Profile() {
       dispatch(clearPostErrors());
     };
   }, [dispatch, profile._id, cuId]);
-
-  const isFriend = friends.some((friend) => friend._id === profile._id);
 
   if (loading) {
     return <div>Loading...</div>;

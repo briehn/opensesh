@@ -1,5 +1,4 @@
 import jwtFetch from "./jwt";
-import { fetchFriends } from "./users";
 const RECEIVE_FRIEND_ERRORS = "friend/RECEIVE_FRIEND_ERRORS";
 
 const receiveErrors = (errors) => ({
@@ -9,7 +8,7 @@ const receiveErrors = (errors) => ({
 
 export const addFriend = (friendId, userId) => async (dispatch) => {
   try {
-    const res = await jwtFetch(`/api/friends/${friendId}`, {
+    await jwtFetch(`/api/friends/${friendId}`, {
       method: "POST",
       body: JSON.stringify({
         userId: userId,
@@ -25,7 +24,7 @@ export const addFriend = (friendId, userId) => async (dispatch) => {
 
 export const removeFriend = (friendId) => async (dispatch) => {
   try {
-    const res = await jwtFetch(`/api/friends/${friendId}`, {
+    await jwtFetch(`/api/friends/${friendId}`, {
       method: "DELETE",
     });
   } catch (err) {
