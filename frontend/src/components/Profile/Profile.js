@@ -77,7 +77,7 @@ function Profile() {
   }, [dispatch, profile._id, cuId]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return;
   }
 
   return (
