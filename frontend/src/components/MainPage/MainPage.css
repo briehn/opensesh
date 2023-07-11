@@ -1,0 +1,14 @@
+.mainbox-container {
+  margin: 20px 100px 0px 100px;
+}
+
+.filter {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: x-large;
+}
+
+.filter-container {
+  margin-bottom: 20px;
+}
