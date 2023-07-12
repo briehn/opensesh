@@ -61,7 +61,9 @@ export const updatePost = (postId) => async (dispatch) => {
 export const fetchPosts =
   (
     type,
-    userId = 0 //default value in the case typeId = 0
+    userId = 0, //default value in the case typeId = 0
+    filter = ""
+    //add filter param
   ) =>
   async (dispatch) => {
     /*  TYPES
@@ -76,8 +78,12 @@ export const fetchPosts =
       friend: `/api/posts/user/${userId}/friends`,
       one: `/api/posts/${userId}/`,
     };
+    let url = types[type];
+    if (filter.length > 0) {
+      url += `?filter=${encodeURIComponent(filter)}`;
+    }
     try {
-      const res = await jwtFetch(types[type]);
+      const res = await jwtFetch(url);
       const posts = await res.json();
       dispatch(receivePosts(posts));
     } catch (err) {

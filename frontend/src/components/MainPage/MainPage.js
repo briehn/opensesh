@@ -34,28 +34,41 @@ function MainPage() {
   const posts = useSelector((state) =>
     state.posts.display ? Object.values(state.posts.display) : []
   );
+  const [loading, setLoading] = useState(true); // Add loading state
 
   useEffect(() => {
-    if (filter) {
-      dispatch(fetchPosts("friend", currentUser._id));
-    } else {
-      dispatch(fetchPosts("all"));
-    }
+    const fetchInfo = async () => {
+      try {
+        if (filter) {
+          dispatch(fetchPosts("friend", currentUser._id));
+        } else {
+          dispatch(fetchPosts("all", 0, "likes"));
+        }
+        setLoading(false);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchInfo();
     return () => {
       dispatch(clearPosts());
       dispatch(clearPostErrors());
     };
   }, [dispatch, filter, currentUser._id]);
 
-  if (posts.length === 0) {
-    return (
-      <div className="mainbox-container">
-        <MemoizedHeading filter={filter} setFilter={setFilter} />
-        <div>No posts to display. Contact staff.</div>
-        <footer>&copy; 2023 OpenSesh</footer>
-      </div>
-    );
+  if (loading) {
+    return;
   }
+
+  // if (posts.length === 0) {
+  //   return (
+  //     <div className="mainbox-container">
+  //       <MemoizedHeading filter={filter} setFilter={setFilter} />
+  //       <div>No posts to display. Contact staff.</div>
+  //       <footer>&copy; 2023 OpenSesh</footer>
+  //     </div>
+  //   );
+  // }
   return (
     <div className="mainbox-container">
       <MemoizedHeading filter={filter} setFilter={setFilter} />

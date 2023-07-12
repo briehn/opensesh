@@ -10,9 +10,42 @@ const validatePostInput = require("../../validations/posts");
 
 router.get("/", async (req, res) => {
   try {
-    const posts = await Post.find()
-      .populate("author", "_id, username")
-      .sort({ createdAt: -1 });
+    const sortBy = req.query.filter;
+
+    const posts = await Post.aggregate([
+      {
+        $lookup: {
+          from: "users",
+          localField: "author",
+          foreignField: "_id",
+          as: "author",
+        },
+      },
+      {
+        $unwind: "$author",
+      },
+      {
+        $addFields: {
+          likesCount: { $size: "$likes" },
+        },
+      },
+      {
+        $sort: {
+          likesCount: sortBy === "likes" ? -1 : 1,
+          createdAt: -1,
+        },
+      },
+      {
+        $project: {
+          "author._id": 1,
+          "author.username": 1,
+          likes: 1,
+          text: 1,
+          likesCount: 1,
+        },
+      },
+    ]);
+
     return res.json(posts);
   } catch (err) {
     return res.json([]);
@@ -102,7 +135,6 @@ router.get("/:id", async (req, res, next) => {
 });
 
 router.post("/", requireUser, validatePostInput, async (req, res, next) => {
-  console.log(req.user);
   try {
     const newPost = new Post({
       text: req.body.text,

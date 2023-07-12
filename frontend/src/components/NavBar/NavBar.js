@@ -17,8 +17,10 @@ function NavBar() {
     if (loggedIn) {
       return (
         <div className="navbar-links">
+          {process.env.NODE_ENV === "development" && (
+            <RefreshLink to="/posts">All Posts (development only)</RefreshLink>
+          )}
           <RefreshLink to="/">Home</RefreshLink>
-          <RefreshLink to="/posts">All Posts</RefreshLink>
           <RefreshLink to="/profile">Profile</RefreshLink>
           <RefreshLink to="/posts/new">Write a Post</RefreshLink>
           <button onClick={logoutUser}>Logout</button>

@@ -14,7 +14,7 @@ function PostBox({ post }) {
   const username = post.author.username;
   const text = post.text;
   const id = post._id;
-  const likes = post.likes.length;
+  const likes = post.likesCount ? post.likesCount : 0;
   const liked = post.likes.includes(currentUser._id);
   const likeText = liked ? "Dislike" : "Like";
 
