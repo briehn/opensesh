@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { clearPostErrors, composePost } from "../../store/posts";
+import { fetchRandomPrompt } from "../../store/prompt";
 
 function PostCompose() {
   const [text, setText] = useState("");
@@ -8,6 +9,7 @@ function PostCompose() {
   const errors = useSelector((state) => state.errors.posts);
 
   useEffect(() => {
+    dispatch(fetchRandomPrompt());
     return () => dispatch(clearPostErrors());
   }, [dispatch]);
 

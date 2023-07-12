@@ -4,12 +4,16 @@ import session from "./session";
 import errors from "./errors";
 import posts from "./posts";
 import users from "./users";
+import prompts from "./prompt";
+import friends from "./friendReducer";
 
 const rootReducer = combineReducers({
   session,
   errors,
   posts,
   users,
+  prompts,
+  friends,
 });
 
 let enhancer;
