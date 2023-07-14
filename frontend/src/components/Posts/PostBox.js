@@ -17,6 +17,7 @@ function PostBox({ post }) {
   const likes = post.likes.length;
   const liked = post.likes.includes(currentUser._id);
   const likeText = liked ? "Dislike" : "Like";
+  const date = new Date(post.createdAt);
 
   const addLike = (e) => {
     e.preventDefault();
@@ -36,6 +37,14 @@ function PostBox({ post }) {
           {username ? `${username}:` : ""}{" "}
         </Link>{" "}
         {text}
+        <div>
+          Date Posted:{" "}
+          {date.toLocaleString("en-GB", {
+            month: "long",
+            day: "numeric",
+            year: "numeric",
+          })}
+        </div>
         <div>Likes: {likes}</div>
         <button onClick={addLike}>{likeText}</button>
       </div>

@@ -4,8 +4,10 @@ import { clearPostErrors, fetchPosts, clearPosts } from "../../store/posts";
 import PostBox from "../Posts/PostBox";
 
 import "./MainPage.css";
+import { fetchMyFriends } from "../../store/session";
 
 function Heading({ filter, setFilter }) {
+  const currentFriends = useSelector((state) => state.session.friends);
   return (
     <div className="filter-container">
       <button
@@ -14,13 +16,18 @@ function Heading({ filter, setFilter }) {
       >
         Popular Posts
       </button>{" "}
-      |{" "}
-      <button
-        className={`filter sesh ${filter ? "active" : ""}`}
-        onClick={() => setFilter(true)}
-      >
-        Your Sesh
-      </button>
+      {currentFriends.length > 0 && (
+        <>
+          {" "}
+          |{" "}
+          <button
+            className={`filter sesh ${filter ? "active" : ""}`}
+            onClick={() => setFilter(true)}
+          >
+            Your Sesh
+          </button>
+        </>
+      )}
     </div>
   );
 }
@@ -44,6 +51,7 @@ function MainPage() {
         } else {
           dispatch(fetchPosts("all", 0, "likes"));
         }
+        dispatch(fetchMyFriends(currentUser._id));
         setLoading(false);
       } catch (error) {
         console.log(error);

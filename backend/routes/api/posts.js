@@ -1,4 +1,5 @@
 const express = require("express");
+const axios = require("axios");
 const router = express.Router();
 const mongoose = require("mongoose");
 const User = mongoose.model("User");
@@ -41,7 +42,7 @@ router.get("/", async (req, res) => {
           "author.username": 1,
           likes: 1,
           text: 1,
-          likesCount: 1,
+          createdAt: 1,
         },
       },
     ]);
@@ -64,7 +65,7 @@ router.get("/user/:userId/friends", async (req, res, next) => {
     // Find all the posts made by the friends
     const posts = await Post.find({
       author: { $in: friendIds },
-    }).populate("author", "_id, username");
+    }).populate("author", "_id username createdAt");
 
     return res.json(posts);
   } catch (err) {
