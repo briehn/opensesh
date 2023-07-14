@@ -31,8 +31,7 @@ router.get("/random-prompt", async (req, res) => {
       },
       {
         headers: {
-          Authorization:
-            "Bearer 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",
+          Authorization: "Bearer <SECRET_KEY>",
           "Content-Type": "application/json",
         },
       }
