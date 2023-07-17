@@ -11,6 +11,7 @@ import SignupForm from "./components/SessionForms/SignupForm";
 import Posts from "./components/Posts/Posts";
 import Profile from "./components/Profile/Profile";
 import PostCompose from "./components/Posts/PostCompose";
+import HomePage from "./components/HomePage/HomePage";
 
 import { getCurrentUser } from "./store/session";
 
@@ -26,6 +27,7 @@ function App() {
       <>
         <NavBar />
         <Switch>
+          <AuthRoute exact path="/" component={HomePage} />
           <AuthRoute exact path="/login" component={LoginForm} />
           <AuthRoute exact path="/signup" component={SignupForm} />
 
