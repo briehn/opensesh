@@ -97,9 +97,9 @@ function SignupForm() {
             placeholder="Confirm Password"
           />
         </label>
-        <div>
+        <div className="signup-button-container">
           <input
-            className="signup-button"
+            className="session-b"
             type="submit"
             value="Sign Up"
             disabled={

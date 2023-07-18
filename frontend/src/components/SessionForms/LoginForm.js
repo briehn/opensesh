@@ -32,7 +32,7 @@ function LoginForm() {
         <h2>Log In Form</h2>
         <div className="errors">{errors?.email}</div>
         <label>
-          <span>Email</span>
+          <div>Email</div>
           <input
             type="text"
             value={email}
@@ -42,7 +42,7 @@ function LoginForm() {
         </label>
         <div className="errors">{errors?.password}</div>
         <label>
-          <span>Password</span>
+          <div>Password</div>
           <input
             type="password"
             value={password}
@@ -50,7 +50,14 @@ function LoginForm() {
             placeholder="Password"
           />
         </label>
-        <input type="submit" value="Log In" disabled={!email || !password} />
+        <div>
+          <input
+            className="session-b"
+            type="submit"
+            value="Log In"
+            disabled={!email || !password}
+          />
+        </div>
       </form>
     </div>
   );

@@ -9,7 +9,7 @@ function PostCompose() {
   const errors = useSelector((state) => state.errors.posts);
 
   useEffect(() => {
-    dispatch(fetchRandomPrompt());
+    // dispatch(fetchRandomPrompt());
     return () => dispatch(clearPostErrors());
   }, [dispatch]);
 
