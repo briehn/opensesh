@@ -31,7 +31,7 @@ function App() {
           <AuthRoute exact path="/login" component={LoginForm} />
           <AuthRoute exact path="/signup" component={SignupForm} />
 
-          <ProtectedRoute exact path="/" component={MainPage} />
+          <ProtectedRoute exact path="/home" component={MainPage} />
           <ProtectedRoute exact path="/posts" component={Posts} />
           <ProtectedRoute
             exact

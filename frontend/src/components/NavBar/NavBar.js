@@ -20,7 +20,7 @@ function NavBar() {
           {process.env.NODE_ENV === "development" && (
             <RefreshLink to="/posts">All Posts (development only)</RefreshLink>
           )}
-          <RefreshLink to="/">Home</RefreshLink>
+          <RefreshLink to="/home">Home</RefreshLink>
           <RefreshLink to="/profile">Profile</RefreshLink>
           <RefreshLink to="/posts/new">Write a Post</RefreshLink>
           <button onClick={logoutUser}>Logout</button>
