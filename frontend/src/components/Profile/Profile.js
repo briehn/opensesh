@@ -8,8 +8,10 @@ import { useParams } from "react-router-dom";
 import AddFriendButton from "./AddFriendButton";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import { useHistory } from "react-router-dom";
 
 function Profile() {
+  const history = useHistory();
   const dispatch = useDispatch();
   const cuId = useSelector((state) =>
     state.session.user ? state.session.user._id : null
@@ -94,10 +96,14 @@ function Profile() {
       ))}
       <h2>Friends</h2>
       {friends.map((friend) => (
-        // <div key={friend._id}>{friend.username}</div>
-        <div>
-          <Link to={`/profile/${friend.username}`}>
-            {friend.username ? `${friend.username}` : ""}
+        <div key={friend._id}>
+          {/* Use a click handler to navigate to the friend's profile */}
+          <Link
+            to={
+              friend._id !== cuId ? `/profile/${friend.username}` : `/profile/`
+            }
+          >
+            {friend.username ? friend.username : ""}
           </Link>
         </div>
       ))}

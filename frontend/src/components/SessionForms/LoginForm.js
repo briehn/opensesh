@@ -29,8 +29,7 @@ function LoginForm() {
   return (
     <div className="session-form-container">
       <form className="session-form" onSubmit={handleSubmit}>
-        <h2>Log In Form</h2>
-        <div className="errors">{errors?.email}</div>
+        <h2 className="session-header">Log In Form</h2>
         <label>
           <div>Email</div>
           <input
@@ -40,7 +39,7 @@ function LoginForm() {
             placeholder="Email"
           />
         </label>
-        <div className="errors">{errors?.password}</div>
+        <div className="errors">{errors?.email}</div>
         <label>
           <div>Password</div>
           <input
@@ -50,13 +49,9 @@ function LoginForm() {
             placeholder="Password"
           />
         </label>
-        <div>
-          <input
-            className="session-b"
-            type="submit"
-            value="Log In"
-            disabled={!email || !password}
-          />
+        <div className="errors">{errors?.password}</div>
+        <div className="button-container">
+          <input className="session-b" type="submit" value="Log In" />
         </div>
       </form>
     </div>

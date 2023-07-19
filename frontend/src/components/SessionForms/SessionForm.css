@@ -35,7 +35,7 @@
   font-weight: bold;
 }
 
-.signup-button-container {
+.button-container {
   margin: 20px 0 15px;
 }
 
@@ -44,7 +44,7 @@
   cursor: pointer;
 }
 
-.signup-header {
+.session-header {
   padding: 15px 0;
   margin-bottom: 0;
   font-weight: bold;

@@ -89,7 +89,7 @@ function SignupForm() {
   return (
     <div className="session-form-container">
       <form className="session-form" onSubmit={usernameSubmit}>
-        <h2 className="signup-header">Sign Up Form</h2>
+        <h2 className="session-header">Sign Up Form</h2>
         <label>
           <div>Email</div>
           <input
@@ -130,14 +130,11 @@ function SignupForm() {
           />
         </label>
         <div className="errors">{errors.password2}</div>
-        <div className="signup-button-container">
+        <div className="button-container">
           <input
             className="session-b"
             type="submit"
             value="Sign Up"
-            // disabled={
-            //   !email || !username || !password || password !== password2
-            // }
             onMouseEnter={validateForm}
             onMouseLeave={handleMouseLeave}
           />
