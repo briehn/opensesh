@@ -8,7 +8,7 @@ function SignupForm() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
-  const errors = useSelector((state) => state.errors.session);
+  const [errors, setErrors] = useState({});
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -40,22 +40,52 @@ function SignupForm() {
     return (e) => setState(e.currentTarget.value);
   };
 
+  const validateForm = () => {
+    const newErrors = {};
+
+    if (!email) {
+      newErrors.email = "Email cannot be empty";
+    } else if (!/\S+@\S+\.\S+/.test(email)) {
+      newErrors.email = "Invalid email format";
+    }
+
+    if (!username) {
+      newErrors.username = "Username cannot be empty";
+    } else if (username.length < 6) {
+      newErrors.username = "Username must be at least 6 characters";
+    }
+
+    if (!password) {
+      newErrors.password = "Password cannot be empty";
+    } else if (password.length < 6) {
+      newErrors.password = "Password must be at least 6 characters";
+    }
+
+    if (password !== password2) {
+      newErrors.password2 = "Passwords do not match";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const usernameSubmit = (e) => {
     e.preventDefault();
+    const isValid = Object.keys(errors).length === 0;
     const user = {
       email,
       username,
       password,
     };
-
-    dispatch(signup(user));
+    if (isValid) {
+      dispatch(signup(user));
+    }
   };
 
   return (
     <div className="session-form-container">
       <form className="session-form" onSubmit={usernameSubmit}>
         <h2 className="signup-header">Sign Up Form</h2>
-        <div className="errors">{errors?.email}</div>
         <label>
           <div>Email</div>
           <input
@@ -65,7 +95,7 @@ function SignupForm() {
             placeholder="Email"
           />
         </label>
-        <div className="errors">{errors?.username}</div>
+        {errors.email && <div className="errors">{errors.email}</div>}
         <label>
           <div>Username</div>
           <input
@@ -75,7 +105,7 @@ function SignupForm() {
             placeholder="Username"
           />
         </label>
-        <div className="errors">{errors?.password}</div>
+        {errors.username && <div className="errors">{errors.username}</div>}
         <label>
           <div>Password</div>
           <input
@@ -85,9 +115,7 @@ function SignupForm() {
             placeholder="Password"
           />
         </label>
-        <div className="errors">
-          {password !== password2 && "Confirm Password field must match"}
-        </div>
+        {errors.password && <div className="errors">{errors.password}</div>}
         <label>
           <div>Confirm Password</div>
           <input
@@ -97,14 +125,16 @@ function SignupForm() {
             placeholder="Confirm Password"
           />
         </label>
+        {errors.password2 && <div className="errors">{errors.password2}</div>}
         <div className="signup-button-container">
           <input
             className="session-b"
             type="submit"
             value="Sign Up"
-            disabled={
-              !email || !username || !password || password !== password2
-            }
+            // disabled={
+            //   !email || !username || !password || password !== password2
+            // }
+            onMouseEnter={validateForm}
           />
         </div>
       </form>
