@@ -69,6 +69,10 @@ function SignupForm() {
     return Object.keys(newErrors).length === 0;
   };
 
+  const handleMouseLeave = () => {
+    setErrors({});
+  };
+
   const usernameSubmit = (e) => {
     e.preventDefault();
     const isValid = Object.keys(errors).length === 0;
@@ -94,8 +98,8 @@ function SignupForm() {
             onChange={update("email")}
             placeholder="Email"
           />
-        </label>
-        {errors.email && <div className="errors">{errors.email}</div>}
+        </label>{" "}
+        <div className="errors">{errors.email}</div>
         <label>
           <div>Username</div>
           <input
@@ -104,8 +108,8 @@ function SignupForm() {
             onChange={update("username")}
             placeholder="Username"
           />
-        </label>
-        {errors.username && <div className="errors">{errors.username}</div>}
+        </label>{" "}
+        <div className="errors">{errors.username}</div>
         <label>
           <div>Password</div>
           <input
@@ -114,8 +118,8 @@ function SignupForm() {
             onChange={update("password")}
             placeholder="Password"
           />
-        </label>
-        {errors.password && <div className="errors">{errors.password}</div>}
+        </label>{" "}
+        <div className="errors">{errors.password}</div>
         <label>
           <div>Confirm Password</div>
           <input
@@ -125,7 +129,7 @@ function SignupForm() {
             placeholder="Confirm Password"
           />
         </label>
-        {errors.password2 && <div className="errors">{errors.password2}</div>}
+        <div className="errors">{errors.password2}</div>
         <div className="signup-button-container">
           <input
             className="session-b"
@@ -135,6 +139,7 @@ function SignupForm() {
             //   !email || !username || !password || password !== password2
             // }
             onMouseEnter={validateForm}
+            onMouseLeave={handleMouseLeave}
           />
         </div>
       </form>
