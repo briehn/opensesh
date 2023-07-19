@@ -27,10 +27,11 @@
 }
 
 .session-b {
-  background-color: #333;
+  background-color: #626161;
   color: #fff;
   padding: 10px 30px;
   border-radius: 5px;
+  border: none;
   transition: background-color 0.2s ease;
   font-weight: bold;
 }
@@ -46,16 +47,23 @@
 
 .session-header {
   padding: 15px 0;
-  margin-bottom: 0;
+  margin-top: 0;
+  margin-bottom: 1rem;
   font-weight: bold;
   text-decoration: underline;
-}
-
-.session-form input {
-  margin: 0 30px;
 }
 
 .session-b:disabled {
   background-color: #8a8a8a;
   cursor: default;
+}
+
+.session-input {
+  border-radius: 5px;
+  border: none;
+  font-weight: lighter;
+  background-color: #e6e6e6;
+  height: 3rem;
+  width: 20rem;
+  padding-left: 10px;
 }

@@ -89,44 +89,44 @@ function SignupForm() {
   return (
     <div className="session-form-container">
       <form className="session-form" onSubmit={usernameSubmit}>
-        <h2 className="session-header">Sign Up Form</h2>
+        <h2 className="session-header">Sign Up</h2>
         <label>
-          <div>Email</div>
           <input
             type="text"
             value={email}
             onChange={update("email")}
             placeholder="Email"
+            className="session-input"
           />
         </label>{" "}
         <div className="errors">{errors.email}</div>
         <label>
-          <div>Username</div>
           <input
             type="text"
             value={username}
             onChange={update("username")}
             placeholder="Username"
+            className="session-input"
           />
         </label>{" "}
         <div className="errors">{errors.username}</div>
         <label>
-          <div>Password</div>
           <input
             type="password"
             value={password}
             onChange={update("password")}
             placeholder="Password"
+            className="session-input"
           />
         </label>{" "}
         <div className="errors">{errors.password}</div>
         <label>
-          <div>Confirm Password</div>
           <input
             type="password"
             value={password2}
             onChange={update("password2")}
             placeholder="Confirm Password"
+            className="session-input"
           />
         </label>
         <div className="errors">{errors.password2}</div>
@@ -134,7 +134,7 @@ function SignupForm() {
           <input
             className="session-b"
             type="submit"
-            value="Sign Up"
+            value="Register Your Account"
             onMouseEnter={validateForm}
             onMouseLeave={handleMouseLeave}
           />

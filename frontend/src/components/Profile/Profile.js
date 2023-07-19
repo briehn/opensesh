@@ -97,7 +97,6 @@ function Profile() {
       <h2>Friends</h2>
       {friends.map((friend) => (
         <div key={friend._id}>
-          {/* Use a click handler to navigate to the friend's profile */}
           <Link
             to={
               friend._id !== cuId ? `/profile/${friend.username}` : `/profile/`
