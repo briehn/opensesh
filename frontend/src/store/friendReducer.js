@@ -4,7 +4,7 @@ const initialState = {
 
 const friendReducer = (state = initialState, action) => {
   switch (action.type) {
-    case "ADD_FRIEND":
+    case "ADD_FRIENDS":
       return {
         ...state,
         friends: [...state.friends, action.friend],
@@ -15,6 +15,11 @@ const friendReducer = (state = initialState, action) => {
         friends: state.friends.filter(
           (friend) => friend._id !== action.friendId
         ),
+      };    
+    case "UPDATE_FRIEND_STATUS":
+      return {
+        ...state,
+        [action.friendId]: action.isFriend,
       };
     default:
       return state;

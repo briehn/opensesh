@@ -6,6 +6,27 @@ const receiveErrors = (errors) => ({
   errors,
 });
 
+export const addUserFriends = (userId) => {
+  return { type: "ADD_FRIENDS", userId };
+};
+
+export const updateFriendStatus = (friendId, isFriend) => {
+  return { type: "UPDATE_FRIEND_STATUS", friendId, isFriend };
+};
+
+export const fetchFriends = (userId) => async (dispatch) => {
+  try {
+    const res = await jwtFetch(`/api/users/${userId}/friends`);
+    const friends = await res.json();
+    dispatch(addUserFriends(friends));
+  } catch (err) {
+    const resBody = await err.json();
+    if (resBody.statusCode === 400) {
+      dispatch(receiveErrors(resBody.errors));
+    }
+  }
+};
+
 export const addFriend = (friendId, userId) => async (dispatch) => {
   try {
     await jwtFetch(`/api/friends/${friendId}`, {
@@ -22,9 +43,9 @@ export const addFriend = (friendId, userId) => async (dispatch) => {
   }
 };
 
-export const removeFriend = (friendId) => async (dispatch) => {
+export const removeFriend = (friendId, userId) => async (dispatch) => {
   try {
-    await jwtFetch(`/api/friends/${friendId}`, {
+    await jwtFetch(`/api/friends/${friendId}/${userId}`, {
       method: "DELETE",
     });
   } catch (err) {

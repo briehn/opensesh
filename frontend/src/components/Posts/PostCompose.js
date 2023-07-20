@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { clearPostErrors, composePost } from "../../store/posts";
-import { fetchRandomPrompt } from "../../store/prompt";
+// import { fetchRandomPrompt } from "../../store/prompt";
 
 function PostCompose() {
   const [text, setText] = useState("");

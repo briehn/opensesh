@@ -33,4 +33,27 @@ router.post("/:friendId", requireUser, async (req, res, next) => {
 //   });
 // });
 
+router.delete("/:friendId/:userId", requireUser, async (req, res, next) => {
+  try {
+    const friend = await Friend.findOneAndDelete({
+      user: req.params.userId,
+      friend: req.params.friendId
+    });
+
+    if (!friend) {
+      const error = new Error("User is not friends with this person");
+      error.statusCode = 400;
+      error.errors = { message: "You are not friends with this person. Please contact staff." };
+      return next(error);
+    }
+
+    return res.json({message: "Friend removed"});
+  } catch (err) {
+    const error = new Error("Error found test");
+    error.statusCode = 404;
+    error.errors = { message: "Server error with deleting friend" };
+    return next(error);
+  }
+})
+
 module.exports = router;

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchFriends, fetchByUsername, clearUser } from "../../store/users";
 import { fetchPosts, clearPostErrors, clearPosts } from "../../store/posts";
@@ -7,11 +7,8 @@ import PostBox from "../Posts/PostBox";
 import { useParams } from "react-router-dom";
 import AddFriendButton from "./AddFriendButton";
 import { Link } from "react-router-dom";
-import { useState } from "react";
-import { useHistory } from "react-router-dom";
 
 function Profile() {
-  const history = useHistory();
   const dispatch = useDispatch();
   const cuId = useSelector((state) =>
     state.session.user ? state.session.user._id : null
@@ -43,10 +40,6 @@ function Profile() {
       : []
   );
 
-  const isFriend = Object.values(cuFriends).some(
-    (friend) => friend._id === profile._id
-  );
-
   const userPosts = useSelector((state) => Object.values(state.posts.display));
 
   const [loading, setLoading] = useState(true); // Add loading state
@@ -60,6 +53,18 @@ function Profile() {
     };
   }, [dispatch, username]);
 
+  const updateFriendsList = async () => {
+    try {
+      if (username) {
+        await dispatch(fetchFriends(profile._id));
+      } else {
+        await dispatch(fetchMyFriends(cuId));
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
     const fetchInfo = async () => {
       try {
@@ -72,6 +77,7 @@ function Profile() {
       }
     };
     fetchInfo();
+    updateFriendsList();
     return () => {
       dispatch(clearPosts());
       dispatch(clearPostErrors());
@@ -86,9 +92,8 @@ function Profile() {
     <>
       {isOtherUser && (
         <AddFriendButton
-          friendId={profile._id}
-          isFriend={isFriend}
-        ></AddFriendButton>
+        friendId={profile._id}
+      />
       )}
       <h2>All of {profile.username}'s Posts</h2>
       {userPosts.map((post) => (

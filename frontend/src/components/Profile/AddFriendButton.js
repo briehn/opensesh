@@ -1,19 +1,24 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addFriend, removeFriend } from "../../store/friendAction";
-import { useSelector } from "react-redux";
+import { updateFriendStatus } from "../../store/friendAction";
 
-const AddFriendButton = ({ friendId, isFriend }) => {
+const AddFriendButton = ({ friendId }) => {
   const dispatch = useDispatch();
-  const cuId = useSelector((state) => state.session.user._id);
+  const cuId = useSelector((state) => state.session.user._id); 
+  const friendsList = useSelector((state) => state.session.friends);
+  const isFriend = friendsList.findIndex((friend) => friend._id === friendId) !== -1;
 
-  const handleAddFriend = () => {
-    dispatch(addFriend(friendId, cuId));
-    dispatch(addFriend(cuId, friendId));
+  const handleAddFriend = async () => {
+    await dispatch(addFriend(friendId, cuId));
+    await dispatch(addFriend(cuId, friendId));
+    dispatch(updateFriendStatus(friendId, true));
   };
 
-  const handleRemoveFriend = () => {
-    dispatch(removeFriend(friendId));
+  const handleRemoveFriend = async () => {
+    await dispatch(removeFriend(friendId, cuId));
+    await dispatch(removeFriend(cuId, friendId));
+    dispatch(updateFriendStatus(friendId, false));
   };
 
   return (
