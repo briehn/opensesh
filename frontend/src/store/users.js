@@ -5,7 +5,7 @@ const RECEIVE_USER_ERRORS = "users/RECEIVE_USER_ERRORS";
 const RECEIVE_BY_USERNAME = "users/RECEIVE_BY_USERNAME";
 const CLEAR_USER = "users/CLEAR_USER";
 
-const receiveUserFriends = (friends) => ({
+export const receiveUserFriends = (friends) => ({
   type: RECEIVE_USER_FRIENDS,
   friends,
 });

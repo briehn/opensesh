@@ -1,4 +1,5 @@
 import jwtFetch from "./jwt";
+import receiveUserFriends from "./users";
 const RECEIVE_FRIEND_ERRORS = "friend/RECEIVE_FRIEND_ERRORS";
 
 const receiveErrors = (errors) => ({
@@ -35,6 +36,9 @@ export const addFriend = (friendId, userId) => async (dispatch) => {
         userId: userId,
       }),
     });
+    const fetch = await jwtFetch(`/api/users/${friendId}/friends`);
+    const friends = await fetch.json();
+    dispatch(receiveUserFriends(friends));
   } catch (err) {
     const resBody = await err.json();
     if (resBody.statusCode === 400) {
@@ -48,6 +52,10 @@ export const removeFriend = (friendId, userId) => async (dispatch) => {
     await jwtFetch(`/api/friends/${friendId}/${userId}`, {
       method: "DELETE",
     });
+    const fetch = await jwtFetch(`/api/users/${friendId}/friends`);
+    const friends = await fetch.json();
+    console.log(friends);
+    dispatch(receiveUserFriends(friends));
   } catch (err) {
     console.log(err);
   }

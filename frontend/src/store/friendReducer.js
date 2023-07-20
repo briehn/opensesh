@@ -15,7 +15,7 @@ const friendReducer = (state = initialState, action) => {
         friends: state.friends.filter(
           (friend) => friend._id !== action.friendId
         ),
-      };    
+      };
     case "UPDATE_FRIEND_STATUS":
       return {
         ...state,
