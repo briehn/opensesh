@@ -1,5 +1,4 @@
 import jwtFetch from "./jwt";
-import receiveUserFriends from "./users";
 const RECEIVE_FRIEND_ERRORS = "friend/RECEIVE_FRIEND_ERRORS";
 
 const receiveErrors = (errors) => ({
@@ -19,7 +18,6 @@ export const fetchFriends = (userId) => async (dispatch) => {
   try {
     const res = await jwtFetch(`/api/users/${userId}/friends`);
     const friends = await res.json();
-    dispatch(addUserFriends(friends));
   } catch (err) {
     const resBody = await err.json();
     if (resBody.statusCode === 400) {
@@ -38,7 +36,6 @@ export const addFriend = (friendId, userId) => async (dispatch) => {
     });
     const fetch = await jwtFetch(`/api/users/${friendId}/friends`);
     const friends = await fetch.json();
-    dispatch(receiveUserFriends(friends));
   } catch (err) {
     const resBody = await err.json();
     if (resBody.statusCode === 400) {
