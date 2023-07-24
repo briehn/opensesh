@@ -1,7 +1,10 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addFriend, removeFriend } from "../../store/friendAction";
-import { updateFriendStatus, fetchFriends } from "../../store/friendAction";
+import {
+  addFriend,
+  removeFriend,
+  fetchFriends,
+} from "../../store/friendAction";
 
 const AddFriendButton = ({ friendId }) => {
   const dispatch = useDispatch();
