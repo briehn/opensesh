@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { clearPostErrors, fetchPosts, clearPosts } from "../../store/posts";
-import PostBox from "../Posts/PostBox";
+import { fetchFriends } from "../../store/friendAction";
 
+import PostBox from "../Posts/PostBox";
 import "./MainPage.css";
-import { fetchMyFriends } from "../../store/session";
 
 function Heading({ filter, setFilter }) {
   const currentFriends = useSelector((state) => state.session.friends);
@@ -51,7 +51,7 @@ function MainPage() {
         } else {
           dispatch(fetchPosts("all", 0, "likes"));
         }
-        dispatch(fetchMyFriends(currentUser._id));
+        dispatch(fetchFriends(currentUser._id));
         setLoading(false);
       } catch (error) {
         console.log(error);
@@ -68,15 +68,6 @@ function MainPage() {
     return;
   }
 
-  // if (posts.length === 0) {
-  //   return (
-  //     <div className="mainbox-container">
-  //       <MemoizedHeading filter={filter} setFilter={setFilter} />
-  //       <div>No posts to display. Contact staff.</div>
-  //       <footer>&copy; 2023 OpenSesh</footer>
-  //     </div>
-  //   );
-  // }
   return (
     <div className="mainbox-container">
       <MemoizedHeading filter={filter} setFilter={setFilter} />

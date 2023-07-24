@@ -4,10 +4,10 @@ const initialState = {
 
 const friendReducer = (state = initialState, action) => {
   switch (action.type) {
-    case "ADD_FRIENDS":
+    case "RECEIVE_FRIENDS_LIST":
       return {
         ...state,
-        friends: [...state.friends, action.friend],
+        friends: [...state.friends.friends, action.friends],
       };
     case "REMOVE_FRIEND":
       return {

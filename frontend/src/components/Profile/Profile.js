@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchFriends, fetchByUsername, clearUser } from "../../store/users";
+import { fetchByUsername, clearUser } from "../../store/users";
 import { fetchPosts, clearPostErrors, clearPosts } from "../../store/posts";
-import { fetchMyFriends } from "../../store/session";
+import { fetchFriends } from "../../store/friendAction";
 import PostBox from "../Posts/PostBox";
 import { useParams } from "react-router-dom";
 import AddFriendButton from "./AddFriendButton";
@@ -42,7 +42,19 @@ function Profile() {
 
   const userPosts = useSelector((state) => Object.values(state.posts.display));
 
-  const [loading, setLoading] = useState(true); // Add loading state
+  const [loading, setLoading] = useState(true);
+
+  const updateFriendsList = async () => {
+    try {
+      if (username) {
+        await dispatch(fetchFriends(profile._id));
+      } else {
+        await dispatch(fetchFriends(cuId));
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   useEffect(() => {
     if (username) {
@@ -53,24 +65,12 @@ function Profile() {
     };
   }, [dispatch, username]);
 
-  const updateFriendsList = async () => {
-    try {
-      if (username) {
-        await dispatch(fetchFriends(profile._id));
-      } else {
-        await dispatch(fetchMyFriends(cuId));
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   useEffect(() => {
     const fetchInfo = async () => {
       try {
         await dispatch(fetchPosts("user", profile._id));
         await dispatch(fetchFriends(profile._id));
-        await dispatch(fetchMyFriends(cuId));
+        await dispatch(fetchFriends(cuId));
         setLoading(false);
       } catch (error) {
         console.error(error);
@@ -82,7 +82,7 @@ function Profile() {
       dispatch(clearPosts());
       dispatch(clearPostErrors());
     };
-  }, [dispatch, profile._id, cuId]);
+  }, [dispatch, profile._id, cuId, username]);
 
   if (loading) {
     return;
@@ -90,11 +90,7 @@ function Profile() {
 
   return (
     <>
-      {isOtherUser && (
-        <AddFriendButton
-        friendId={profile._id}
-      />
-      )}
+      {isOtherUser && <AddFriendButton friendId={profile._id} />}
       <h2>All of {profile.username}'s Posts</h2>
       {userPosts.map((post) => (
         <PostBox key={post._id} post={post} />
