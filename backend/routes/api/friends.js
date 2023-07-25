@@ -7,53 +7,55 @@ const { requireUser } = require("../../config/passport");
 
 router.post("/:friendId", requireUser, async (req, res, next) => {
   try {
-    const newFriend = new Friend({
-      user: req.body.userId,
-      friend: req.params.friendId,
+    const userId = req.body.userId;
+    const friendId = req.params.friendId;
+
+    const newFriendForUser = new Friend({
+      user: userId,
+      friend: friendId,
     });
-    let friend = await newFriend.save();
-    return res.json(friend);
+    const userFriend = await newFriendForUser.save();
+
+    const newFriendForAddedFriend = new Friend({
+      user: friendId,
+      friend: userId,
+    });
+    const addedFriend = await newFriendForAddedFriend.save();
+
+    return res.json({ addedFriend });
   } catch (err) {
     return next(err);
   }
 });
 
-/*
- Weird, don't use findByIdAndDelete,
- Instead, search by userId and friendId
-*/
-
-// router.delete("/:friendId", requireUser, async (req, res, next) => {
-//   Friend.findByIdAndDelete(req.params.friendId, (err, itn) => {
-//     if (err) {
-//       res.status(400).send(err);
-//     } else {
-//       res.send({ Success: "Friend deleted" });
-//     }
-//   });
-// });
-
 router.delete("/:friendId/:userId", requireUser, async (req, res, next) => {
   try {
     const friend = await Friend.findOneAndDelete({
       user: req.params.userId,
-      friend: req.params.friendId
+      friend: req.params.friendId,
     });
 
-    if (!friend) {
+    const friend2 = await Friend.findOneAndDelete({
+      user: req.params.friendId,
+      friend: req.params.userId,
+    });
+
+    if (!friend || !friend2) {
       const error = new Error("User is not friends with this person");
       error.statusCode = 400;
-      error.errors = { message: "You are not friends with this person. Please contact staff." };
+      error.errors = {
+        message: "You are not friends with this person. Please contact staff.",
+      };
       return next(error);
     }
 
-    return res.json({message: "Friend removed"});
+    return res.json({ message: "Friend removed" });
   } catch (err) {
     const error = new Error("Error found test");
     error.statusCode = 404;
     error.errors = { message: "Server error with deleting friend" };
     return next(error);
   }
-})
+});
 
 module.exports = router;

@@ -7,19 +7,19 @@ const friendReducer = (state = initialState, action) => {
     case "friend/RECEIVE_FRIENDS_LIST":
       return {
         ...state,
-        friends: action.friends,
-      };
-    case "REMOVE_FRIEND":
-      return {
-        ...state,
-        friends: state.friends.filter(
-          (friend) => friend._id !== action.friendId
-        ),
+        friends: Array.isArray(state.friends.friends)
+          ? [...state.friends.friends, action.friends]
+          : action.friends,
       };
     case "UPDATE_FRIEND_STATUS":
       return {
         ...state,
         [action.friendId]: action.isFriend,
+      };
+    case "friend/CLEAR_FRIENDS_LIST":
+      return {
+        ...state,
+        friends: [],
       };
     default:
       return state;

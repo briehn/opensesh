@@ -1,6 +1,7 @@
 import jwtFetch from "./jwt";
 const RECEIVE_FRIEND_ERRORS = "friend/RECEIVE_FRIEND_ERRORS";
 const RECEIVE_FRIENDS_LIST = "friend/RECEIVE_FRIENDS_LIST";
+const CLEAR_FRIENDS_LIST = "friend/CLEAR_FRIENDS_LIST";
 
 const receiveErrors = (errors) => ({
   type: RECEIVE_FRIEND_ERRORS,
@@ -10,6 +11,10 @@ const receiveErrors = (errors) => ({
 export const addUserFriends = (friends) => ({
   type: RECEIVE_FRIENDS_LIST,
   friends,
+});
+
+export const clearFriendsList = () => ({
+  type: CLEAR_FRIENDS_LIST,
 });
 
 export const updateFriendStatus = (friendId, isFriend) => {

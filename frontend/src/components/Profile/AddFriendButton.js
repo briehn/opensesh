@@ -11,24 +11,17 @@ const AddFriendButton = ({ friendId }) => {
   const cuId = useSelector((state) => state.session.user._id);
   const friendsList = useSelector((state) => state.friends.friends);
   const isFriend =
-    friendsList.findIndex((friend) => friend._id === friendId) !== -1;
+    friendsList.findIndex((friend) => friend._id === cuId) !== -1;
 
   const handleAddFriend = async () => {
     dispatch(addFriend(friendId, cuId));
-    dispatch(addFriend(cuId, friendId));
-    // dispatch(updateFriendStatus(friendId, true));
+    dispatch(fetchFriends(friendId));
   };
 
   const handleRemoveFriend = async () => {
     dispatch(removeFriend(friendId, cuId));
-    dispatch(removeFriend(cuId, friendId));
-    // dispatch(updateFriendStatus(friendId, false));
+    dispatch(fetchFriends(friendId));
   };
-
-  // useEffect(() => {
-  //   dispatch(fetchFriends(friendId));
-  //   dispatch(fetchMyFriends(cuId));
-  // }, [dispatch]);
 
   return (
     <button onClick={isFriend ? handleRemoveFriend : handleAddFriend}>

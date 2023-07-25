@@ -7,7 +7,7 @@ import PostBox from "../Posts/PostBox";
 import "./MainPage.css";
 
 function Heading({ filter, setFilter }) {
-  const currentFriends = useSelector((state) => state.session.friends);
+  const currentFriends = useSelector((state) => state.friends.friends);
   return (
     <div className="filter-container">
       <button
