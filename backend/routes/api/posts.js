@@ -204,18 +204,23 @@ router.delete("/:postId/likes", requireUser, async (req, res, next) => {
       post: req.params.postId,
       user: req.user._id,
     });
+    post.likes = post.likes.filter((userId) => userId !== req.user._id);
 
+    await post.save();
     if (!like) {
-      const error = new Error("Like not found");
+      const error = new Error(
+        " \nLike not found with user: \n\t" +
+          req.user._id +
+          "\nOn post: \n\t" +
+          req.params.postId +
+          "\nLikes Of Post:" +
+          post.likes.map((like) => "\n\t" + like)
+      );
       error.statusCode = 404;
       error.errors = { message: "No like found with given post" };
       return next(error);
     }
 
-    post.likes = post.likes.filter((userId) => {
-      userId !== req.user._id;
-    });
-    await post.save();
     return res.json({ message: "Like removed" });
   } catch (err) {
     const error = new Error("Error found");
