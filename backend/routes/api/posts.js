@@ -157,9 +157,8 @@ router.post("/:postId/likes", requireUser, async (req, res, next) => {
       return res.status(404).json({ message: "Post not found" });
     }
 
-    // Check if the user has already liked the post
     const like = await Like.findOne({
-      user: req.user._id, // Assuming you have implemented authentication
+      user: req.user._id,
       post: post._id,
     });
     if (like) {
@@ -169,22 +168,20 @@ router.post("/:postId/likes", requireUser, async (req, res, next) => {
       return next(error);
     }
 
-    // Create a new like
     const newLike = new Like({
-      user: req.user._id, // Assuming you have implemented authentication
+      user: req.user._id,
       post: post._id,
     });
     await newLike.save();
 
-    // Add the new like to the post
     post.likes.push(newLike.user);
     await post.save();
 
     return res.json(post);
   } catch (err) {
-    const error = new Error("Post not found");
-    error.statusCode = 404;
-    error.errors = { message: "No post found with that id" };
+    console.error(err); // Log the actual error for debugging purposes
+    const error = new Error("Server error with deleting post");
+    error.statusCode = 404; // Use 500 for server errors
     return next(error);
   }
 });
@@ -204,7 +201,8 @@ router.delete("/:postId/likes", requireUser, async (req, res, next) => {
       post: req.params.postId,
       user: req.user._id,
     });
-    post.likes = post.likes.filter((userId) => userId !== req.user._id);
+    const userObjectId = new mongoose.Types.ObjectId(req.user._id);
+    post.likes = post.likes.filter((userId) => !userId.equals(userObjectId));
 
     await post.save();
     if (!like) {
@@ -223,9 +221,9 @@ router.delete("/:postId/likes", requireUser, async (req, res, next) => {
 
     return res.json({ message: "Like removed" });
   } catch (err) {
-    const error = new Error("Error found");
-    error.statusCode = 404;
-    error.errors = { message: "Server error with deleting post" };
+    console.error(err);
+    const error = new Error("Server error with deleting post");
+    error.statusCode = 404; // Use 500 for server errors
     return next(error);
   }
 });
