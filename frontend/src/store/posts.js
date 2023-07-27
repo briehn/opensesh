@@ -110,7 +110,7 @@ export const addLikes = (postId) => async (dispatch) => {
   }
 };
 
-export const removeLikes = (postId) => async (dispatch) => {
+export const removeLikes = (postId, userId) => async (dispatch) => {
   try {
     await jwtFetch(`/api/posts/${postId}/likes`, {
       method: "DELETE",

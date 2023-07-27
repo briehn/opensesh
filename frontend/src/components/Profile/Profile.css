@@ -1,0 +1,30 @@
+.profile-container {
+  display: flex;
+  padding-top: 35px;
+}
+
+.profile-left-container {
+  margin: 0px 75px 0px 35px;
+}
+
+.profile-pic-container {
+  background-color: pink;
+  border-radius: 25px;
+  width: 250px;
+  height: 250px;
+  margin-bottom: 25px;
+  padding: 7px;
+  overflow: hidden;
+}
+
+.friend-button {
+  border: none;
+  width: 200px;
+  height: 2rem;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.add-friend-container {
+  text-align: center;
+}

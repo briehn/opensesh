@@ -8,6 +8,8 @@ import { useParams } from "react-router-dom";
 import AddFriendButton from "./AddFriendButton";
 import { Link } from "react-router-dom";
 
+import "./Profile.css";
+
 function Profile() {
   const dispatch = useDispatch();
   const cuId = useSelector((state) =>
@@ -70,25 +72,42 @@ function Profile() {
   }
 
   return (
-    <>
-      {isOtherUser && <AddFriendButton friendId={profile._id} />}
-      <h2>All of {profile.username}'s Posts</h2>
-      {userPosts.map((post) => (
-        <PostBox key={post._id} post={post} />
-      ))}
-      <h2>Friends</h2>
-      {Object.values(friends).map((friend) => (
-        <div key={friend._id}>
-          <Link
-            to={
-              friend._id !== cuId ? `/profile/${friend.username}` : `/profile/`
-            }
-          >
-            {friend.username ? friend.username : ""}
-          </Link>
+    <div className="profile-container">
+      <div className="profile-left-container">
+        <div className="profile-pic-container">Insert Profile Pic</div>
+        <div className="add-friend-container">
+          {isOtherUser && <AddFriendButton friendId={profile._id} />}
         </div>
-      ))}
-    </>
+        <div className="profile-friends-container">
+          {" "}
+          <h2>Friends</h2>
+          {Object.values(friends).map((friend) => (
+            <div key={friend._id}>
+              <Link
+                to={
+                  friend._id !== cuId
+                    ? `/profile/${friend.username}`
+                    : `/profile/`
+                }
+              >
+                {friend.username ? friend.username : ""}
+              </Link>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="profile-right-container">
+        <div className="profile-showcase-container">
+          Insert Profile Showcase
+        </div>
+        <div className="profiel-feed-container">
+          <h2>All of {profile.username}'s Posts</h2>
+          {userPosts.map((post) => (
+            <PostBox key={post._id} post={post} />
+          ))}
+        </div>
+      </div>
+    </div>
   );
 }
 

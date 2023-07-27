@@ -24,7 +24,10 @@ const AddFriendButton = ({ friendId }) => {
   };
 
   return (
-    <button onClick={isFriend ? handleRemoveFriend : handleAddFriend}>
+    <button
+      className="friend-button"
+      onClick={isFriend ? handleRemoveFriend : handleAddFriend}
+    >
       {isFriend ? "Remove Friend" : "Add Friend"}
     </button>
   );
