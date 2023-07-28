@@ -98,7 +98,14 @@ function Profile() {
       </div>
       <div className="profile-right-container">
         <div className="profile-showcase-container">
-          Insert Profile Showcase
+          <div className="showcase-prompt-count">
+            <div className="prompt-count-header">Prompts Answered</div>
+            <div className="prompt-count-val">25</div>
+          </div>
+          <div className="showcase-popular">
+            <div className="popular-header">Most Liked Answer</div>
+            <div className="popular-val">Cake cake cake</div>
+          </div>
         </div>
         <div className="profiel-feed-container">
           <h2>All of {profile.username}'s Posts</h2>
