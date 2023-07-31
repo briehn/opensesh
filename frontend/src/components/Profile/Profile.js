@@ -96,7 +96,7 @@ function Profile() {
           ))}
         </div>
       </div>
-      <div className="profile-right-container">
+      <div className="profile-center-container">
         <div className="profile-showcase-container">
           <div className="showcase-prompt-count">
             <div className="prompt-count-header">Prompts Answered</div>
@@ -113,6 +113,9 @@ function Profile() {
             <PostBox key={post._id} post={post} />
           ))}
         </div>
+      </div>
+      <div className="profile-right-container">
+        <div className="profile-feed-container">FRIEND FEED</div>
       </div>
     </div>
   );

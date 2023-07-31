@@ -38,7 +38,6 @@ function App() {
             path="/profile/:username?"
             component={Profile}
           />
-          <ProtectedRoute exact path="/notif"></ProtectedRoute>
 
           <ProtectedRoute exact path="/posts/new" component={PostCompose} />
         </Switch>
