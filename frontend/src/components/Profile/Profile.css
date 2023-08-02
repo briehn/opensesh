@@ -3,8 +3,9 @@
   padding-top: 35px;
 }
 
-.profile-left-container {
-  margin: 0px 75px 0px 35px;
+.profile-left-container,
+.profile-center-container {
+  margin: 0px 25px 0px 15px;
 }
 
 .profile-pic-container {
