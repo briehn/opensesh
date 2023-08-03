@@ -22,7 +22,6 @@ const csurf = require("csurf");
 //ROUTERS
 const usersRouter = require("./routes/api/users");
 const postsRouter = require("./routes/api/posts");
-const likesRouter = require("./routes/api/likes");
 const promptRouter = require("./routes/api/prompt");
 const friendsRouter = require("./routes/api/friends");
 const csrfRouter = require("./routes/api/csrf");
@@ -52,7 +51,6 @@ app.use(
 
 app.use("/api/users", usersRouter);
 app.use("/api/posts", postsRouter);
-app.use("/api/likes", likesRouter);
 app.use("/api/prompt", promptRouter);
 app.use("/api/friends", friendsRouter);
 app.use("/api/csrf", csrfRouter);
