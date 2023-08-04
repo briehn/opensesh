@@ -23,7 +23,6 @@ function NavBar() {
           <RefreshLink to="/home">Home</RefreshLink>
           <RefreshLink to="/profile">Profile</RefreshLink>
           <RefreshLink to="/posts/new">Write a Post</RefreshLink>
-          <RefreshLink to="/notif">Notifications</RefreshLink>
           <button onClick={logoutUser}>Logout</button>
         </div>
       );

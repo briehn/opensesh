@@ -1,0 +1,19 @@
+.home-main-container {
+  padding: 25px;
+}
+
+.main-header {
+  margin-top: 2rem;
+  font-size: 72px;
+  font-weight: bold;
+}
+
+.main-header-container {
+  text-align: center;
+  user-select: none;
+}
+
+.main-header-text {
+  font-size: 24px;
+  line-height: 48px;
+}
