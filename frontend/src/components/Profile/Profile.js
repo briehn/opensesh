@@ -100,7 +100,7 @@ function Profile() {
         <div className="profile-showcase-container">
           <div className="showcase-prompt-count">
             <div className="prompt-count-header">Prompts Answered</div>
-            <div className="prompt-count-val">25</div>
+            <div className="prompt-count-val">{userPosts.length}</div>
           </div>
           <div className="showcase-popular">
             <div className="popular-header">Most Liked Answer</div>
