@@ -11,17 +11,19 @@ function PostBox({ post }) {
   //ugly declaration, must fix
 
   if (!post) return null;
-  const username = post.author.username;
-  const text = post.text;
-  const id = post._id;
-  const likes = post.likes.length;
+  const {
+    author: { username },
+    text,
+    _id,
+    likes,
+  } = post;
   const liked = post.likes.includes(currentUser._id);
   const likeText = liked ? "Dislike" : "Like";
   const date = new Date(post.createdAt);
 
   const addLike = (e) => {
     e.preventDefault();
-    liked ? dispatch(removeLikes(id)) : dispatch(addLikes(id));
+    liked ? dispatch(removeLikes(_id)) : dispatch(addLikes(_id));
   };
 
   return (
