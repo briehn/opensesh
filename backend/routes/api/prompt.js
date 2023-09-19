@@ -10,7 +10,6 @@ const CACHE_EXPIRATION_TIME = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
 
 router.get("/random-prompt", async (req, res) => {
   try {
-    // Check if the prompt is already cached and not expired
     if (
       cachedPrompt &&
       lastCachedTime &&
@@ -19,7 +18,6 @@ router.get("/random-prompt", async (req, res) => {
       return res.json({ prompt: cachedPrompt });
     }
 
-    // Make a request to the OpenAI API
     const response = await axios.post(
       "https://api.openai.com/v1/engines/gpt-3.5-turbo-0301/completions",
       {
