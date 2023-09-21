@@ -37,7 +37,6 @@ router.get("/random-prompt", async (req, res) => {
 
     const randomPrompt = response.data.choices[0].text.trim();
 
-    // Cache the generated prompt and update the last cached time
     cachedPrompt = randomPrompt;
     lastCachedTime = Date.now();
 
