@@ -8,8 +8,6 @@ function PostBox({ post }) {
   const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.session.user);
 
-  //ugly declaration, must fix
-
   if (!post) return null;
   const {
     author: { username },
