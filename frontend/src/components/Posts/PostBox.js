@@ -45,7 +45,7 @@ function PostBox({ post }) {
             year: "numeric",
           })}
         </div>
-        <div>Likes: {likes}</div>
+        <div>Likes: {likes.length}</div>
         <button onClick={addLike}>{likeText}</button>
       </div>
     </div>
