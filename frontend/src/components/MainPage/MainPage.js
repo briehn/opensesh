@@ -65,7 +65,7 @@ function MainPage() {
   }, [dispatch, filter, currentUser._id]);
 
   if (loading) {
-    return;
+    return null;
   }
 
   return (

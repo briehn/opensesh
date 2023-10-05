@@ -1,5 +1,12 @@
 .mainbox-container {
   margin: 20px 100px 0px 100px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.posts-container {
+  flex-grow: 1;
 }
 
 .filter {
