@@ -54,7 +54,7 @@ function MainPage() {
         dispatch(fetchFriends(currentUser._id));
         setLoading(false);
       } catch (error) {
-        console.log(error);
+        console.log(error); //gotta figure out some better logging
       }
     };
     fetchInfo();
