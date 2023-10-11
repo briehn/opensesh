@@ -22,7 +22,8 @@ const csurf = require("csurf");
 //ROUTERS
 const usersRouter = require("./routes/api/users");
 const postsRouter = require("./routes/api/posts");
-const promptRouter = require("./routes/api/prompt");
+// const promptRouter = require("./routes/api/prompt");
+const promptRouter = require("./routes/api/prompts/prompt");
 const friendsRouter = require("./routes/api/friends");
 const csrfRouter = require("./routes/api/csrf");
 
