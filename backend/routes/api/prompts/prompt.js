@@ -71,33 +71,6 @@ async function fetchQuestion() {
 
   console.log("Initial CachedPrompt: " + cachedPrompt);
 
-  // fs.readFile(path.join(__dirname, "data.json"), "utf8", (err, data) => {
-  //   if (err) {
-  //     console.error("Error reading JSON file:", err);
-  //     return "Internal Server Error Reading JSON";
-  //   }
-
-  //   const questions = JSON.parse(data);
-
-  //   const updatedQuestions = questions.map((question) => {
-  //     if (question.id === sel.id) {
-  //       question.lastUsed = sel.lastUsed;
-  //     }
-  //     return question;
-  //   });
-
-  //   fs.writeFile(
-  //     path.join(__dirname, "data.json"),
-  //     JSON.stringify(updatedQuestions, null, 2),
-  //     (err) => {
-  //       if (err) {
-  //         console.error("Error writing JSON file:", err);
-  //         return "Internal Server Error Writing to JSON";
-  //       }
-  //     }
-  //   );
-  // });
-
   const data = await readFileAsync(path.join(__dirname, "data.json"), "utf8");
   const questions = JSON.parse(data);
 
