@@ -12,7 +12,6 @@ const { requireUser } = require("../../config/passport");
 const validateRegisterInput = require("../../validations/register");
 const validateLoginInput = require("../../validations/login");
 
-/* GET users listing. */
 router.get("/", async (req, res) => {
   try {
     const users = await User.find();
@@ -23,7 +22,6 @@ router.get("/", async (req, res) => {
   }
 });
 
-// POST /api/users/register
 router.post("/register", validateRegisterInput, async (req, res, next) => {
   const user = await User.findOne({
     $or: [{ email: req.body.email }, { username: req.body.username }],
