@@ -41,7 +41,7 @@ function MainPage() {
   const posts = useSelector((state) =>
     state.posts.display ? Object.values(state.posts.display) : []
   );
-  const [loading, setLoading] = useState(true); // Add loading state
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchInfo = async () => {
